@@ -1,0 +1,103 @@
+\documentclass[a4paper,12pt]{ltjsreport}
+\usepackage{luatexja-fontspec}
+\usepackage{luatexja}
+\usepackage{array}
+\usepackage{geometry}
+\usepackage{tikz}
+
+\geometry{top=20mm, bottom=25mm, left=25mm, right=25mm}
+
+\setmainjfont{IPAexMincho}
+\setsansjfont{IPAexGothic}
+
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+
+\begin{document}
+\thispagestyle{empty}
+
+\begin{tikzpicture}[remember picture, overlay]
+	\node at ([yshift=-8mm]current page.north west) [anchor=west, xshift=25mm] {\texttt{-----}};
+	\node at ([yshift=-8mm]current page.north) {\texttt{-----}};
+	\node at ([yshift=-8mm]current page.north east) [anchor=east, xshift=-25mm] {\texttt{-----}};
+\end{tikzpicture}
+
+\vspace{-4ex}
+
+\noindent\hspace{0.53\linewidth}
+{\fontsize{16pt}{20pt}\selectfont
+	\begin{tabular}{|M{1.3cm}|M{4.3cm}|}
+		\hline
+		受理 & \rule{0pt}{1.0cm} \\
+		\hline
+		評点 & \rule{0pt}{1.0cm} \\
+		\hline
+	\end{tabular}}
+
+\vspace{10pt}
+
+\begin{center}
+	{\fontsize{31pt}{40pt}\selectfont\underline{電子情報工学実験報告書}}
+\end{center}
+
+\vspace{8pt}
+
+\noindent
+\begin{center}
+	{\fontsize{16pt}{20pt}\selectfont
+		\begin{tabular}{|p{3.5cm}|p{10cm}|}
+			\hline
+			\rule{0pt}{1.5em}実験題目番号 & \underline{No.\hspace{1.2cm}}     \\[1em]
+			実験題目名                   & \underline{\hspace{9.5cm}}        \\[1em]
+			                        & \hfill （実験担当教員名：\hspace{2.5cm}教員） \\[0.5em]
+			\hline
+		\end{tabular}
+	}
+\end{center}
+
+\vspace{8pt}
+
+\begin{center}
+	{\fontsize{15pt}{19pt}\selectfont
+		\underline{\makebox[3.5cm][l]{提出締切日}\hspace{2cm}年\hspace{2cm}月\hspace{2cm}日} \\[1em]
+		\underline{\makebox[3.5cm][l]{提出日}\hspace{2cm}年\hspace{2cm}月\hspace{2cm}日} \\[1em]
+		\underline{\makebox[3.5cm][l]{再提出日}\hspace{2cm}年\hspace{2cm}月\hspace{2cm}日}
+	}
+\end{center}
+
+\vspace{15pt}
+
+\noindent\makebox[\linewidth][c]{
+	\begin{tabular}{|c|c|c|c||c|c|c|}
+		\hline
+		実 & \makebox[4cm]{ 年／ 月 ／日 }                                       & \makebox[1.8cm]{温\hspace{0.5em}度}  & \makebox[1.8cm]{湿\hspace{0.5em}度}   & \makebox[4cm]{ 年／ 月 ／日 }                                       & \makebox[1.5cm]{温\hspace{0.5em}度}  & \makebox[1.5cm]{湿\hspace{0.5em}度}   \\ \cline{2-7}
+		験 & \makebox[4cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.8cm][r]{℃\hspace*{2mm}} & \makebox[1.8cm][r]{\%\hspace*{2mm}} & \makebox[4cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.8cm][r]{℃\hspace*{2mm}} & \makebox[1.8cm][r]{\%\hspace*{2mm}} \\ \cline{2-7}
+		実 & \makebox[4cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.8cm][r]{℃\hspace*{2mm}} & \makebox[1.8cm][r]{\%\hspace*{2mm}} & \makebox[4cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.8cm][r]{℃\hspace*{2mm}} & \makebox[1.8cm][r]{\%\hspace*{2mm}} \\ \cline{2-7}
+		施 & \makebox[4cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.8cm][r]{℃\hspace*{2mm}} & \makebox[1.8cm][r]{\%\hspace*{2mm}} & \makebox[4cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.8cm][r]{℃\hspace*{2mm}} & \makebox[1.8cm][r]{\%\hspace*{2mm}} \\ \cline{2-7}
+		日 & \makebox[4cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.8cm][r]{℃\hspace*{2mm}} & \makebox[1.8cm][r]{\%\hspace*{2mm}} & \makebox[4cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.8cm][r]{℃\hspace*{2mm}} & \makebox[1.8cm][r]{\%\hspace*{2mm}} \\ \hline
+	\end{tabular}
+}
+
+\vspace{15pt}
+
+\noindent
+\renewcommand{\arraystretch}{1.3}
+{\fontsize{14pt}{16pt}\selectfont
+	\makebox[\linewidth][c]{
+		\begin{tabular}{|c|p{9.5cm}|}
+			\hline
+			\rule{0pt}{1.8em}                         & \raisebox{0.3em}{\makebox[9.5cm][c]{\makebox[2cm]{年}\makebox[2cm]{番}\makebox[2cm]{班}}} \\ \cline{2-2}
+			\rule{0pt}{1.5em}報告者氏名                    & \raisebox{0.2em}{\makebox[9.5cm][l]{Email:\hfill @example.ac.jp}}                      \\ \cline{2-2}
+			\rule{0pt}{1.8em}                         & \raisebox{0.3em}{氏名}                                                                   \\ \hline
+			\rule{0pt}{1.5em}\raisebox{-0.7em}{共同実験者} &                                                                                        \\ \cline{2-2}
+			\rule{0pt}{1.5em}                         &                                                                                        \\ \cline{2-2}
+			\rule{0pt}{1.5em}\raisebox{0.7em}{氏名}     &                                                                                        \\ \hline
+		\end{tabular}
+	}
+}
+
+\vspace{-4pt}
+\begin{center}
+	{\fontsize{14pt}{18pt}\selectfont 石川工業高等専門学校\quad 電子情報工学科}
+\end{center}
+
+\end{document}
