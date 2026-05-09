@@ -5,6 +5,7 @@
 \usepackage{geometry}
 \usepackage{tikz}
 \usepackage{multirow}
+\usepackage{graphicx}
 
 \geometry{top=20mm, bottom=20mm, left=25mm, right=25mm}
 
@@ -17,17 +18,17 @@
 \thispagestyle{empty}
 
 \begin{tikzpicture}[remember picture, overlay]
-	\node at ([yshift=-8mm]current page.north west) [anchor=west, xshift=25mm] {\texttt{-----}};
-	\node at ([yshift=-8mm]current page.north) {\texttt{-----}};
-	\node at ([yshift=-8mm]current page.north east) [anchor=east, xshift=-25mm] {\texttt{-----}};
+	\node at ([yshift=-8mm]current page.north west) [anchor=west, xshift=30mm] {\scalebox{0.8}[1]{\texttt{-----}}};
+	\node at ([yshift=-8mm]current page.north) {\scalebox{0.8}[1]{\texttt{-----}}};
+	\node at ([yshift=-8mm]current page.north east) [anchor=east, xshift=-30mm] {\scalebox{0.8}[1]{\texttt{-----}}};
 \end{tikzpicture}
 
 \vspace{-4ex}
 
-\noindent\hspace{0.53\linewidth}
+\noindent\hspace{0.51\linewidth}
 \setlength{\arrayrulewidth}{0.3pt}
 {\fontsize{16pt}{20pt}\selectfont
-	\begin{tabular}{|M{1.3cm}|M{4.3cm}|}
+	\begin{tabular}{|M{1.3cm}|M{4.8cm}|}
 		\hline
 		受理 & \rule{0pt}{1.0cm} \\
 		\hline
@@ -45,8 +46,8 @@
 
 \noindent
 \begin{center}
-	{\fontsize{16pt}{20pt}\selectfont
-		\begin{tabular}{|p{3.5cm}|p{10cm}|}
+	{\fontsize{17pt}{20pt}\selectfont
+		\begin{tabular}{|p{3.5cm}|p{10.3cm}|}
 			\hline
 			\rule{0pt}{1.5em}実験題目番号 & \underline{No.\hspace{1.2cm}}                                         \\[1em]
 			実験題目名                   & \underline{\hspace{9.5cm}}                                            \\[1em]
@@ -73,11 +74,11 @@
 	\renewcommand{\arraystretch}{0.95}
 	\begin{tabular}{|c|c|c|c||c|c|c|}
 		\hline
-		\makebox[0.5cm]{実} & \makebox[4cm]{ 年／ 月 ／日 }                                       & \makebox[1.6cm]{温\hspace{0.5em}度}  & \makebox[1.6cm]{湿\hspace{0.5em}度}   & \makebox[4cm]{ 年／ 月 ／日 }                                       & \makebox[1.6cm]{温\hspace{0.5em}度}  & \makebox[1.6cm]{湿\hspace{0.5em}度}   \\ \cline{2-7}
-		\makebox[0.5cm]{験} & \makebox[4cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} & \makebox[4cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} \\ \cline{2-7}
-		\makebox[0.5cm]{実} & \makebox[4cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} & \makebox[4cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} \\ \cline{2-7}
-		\makebox[0.5cm]{施} & \makebox[4cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} & \makebox[4cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} \\ \cline{2-7}
-		\makebox[0.5cm]{日} & \makebox[4cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} & \makebox[4cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} \\ \hline
+		\makebox[0.6cm]{実} & \makebox[4.2cm]{ 年／ 月 ／日 }                                       & \makebox[1.6cm]{温\hspace{0.5em}度}  & \makebox[1.6cm]{湿\hspace{0.5em}度}   & \makebox[4.3cm]{ 年／ 月 ／日 }                                       & \makebox[1.6cm]{温\hspace{0.5em}度}  & \makebox[1.6cm]{湿\hspace{0.5em}度}   \\ \cline{2-7}
+		\makebox[0.6cm]{験} & \makebox[4.2cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} & \makebox[4.3cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} \\ \cline{2-7}
+		\makebox[0.6cm]{実} & \makebox[4.2cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} & \makebox[4.3cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} \\ \cline{2-7}
+		\makebox[0.6cm]{施} & \makebox[4.2cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} & \makebox[4.3cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} \\ \cline{2-7}
+		\makebox[0.6cm]{日} & \makebox[4.2cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} & \makebox[4.3cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} \\ \hline
 	\end{tabular}
 	\endgroup
 }
@@ -103,7 +104,7 @@
 \vspace{-1ex}
 
 \begin{center}
-	{\fontsize{16pt}{18pt}\selectfont 石川工業高等専門学校\quad 電子情報工学科}
+	{\fontsize{17pt}{19pt}\selectfont 石川工業高等専門学校\quad 電子情報工学科}
 \end{center}
 
 \end{document}
