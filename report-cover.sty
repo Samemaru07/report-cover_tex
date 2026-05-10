@@ -266,7 +266,7 @@
 	\vspace{15pt}
 
 	% 実施日・温度・湿度の一覧表 (最大8回分) 
-	\noindent\makebox[\linewidth][c]{\begingroup\renewcommand{\arraystretch}{1.1}\setlength{\extrarowheight}{0.1em}\begin{tabular}{|c|c|c|c||c|c|c|}
+	\noindent\makebox[\linewidth][c]{\begingroup\renewcommand{\arraystretch}{1.1}\setlength{\extrarowheight}{0.1em}\setlength{\doublerulesep}{0.5pt}\begin{tabular}{|c|c|c|c||c|c|c|}
 			\hline
 			\makebox[0.6cm]{実} & \makebox[4.2cm][c]{\makebox[1.2cm][c]{年}／\makebox[0.8cm][c]{月}／\makebox[0.8cm][c]{日}} & \makebox[1.6cm]{温\hspace{0.5em}度} & \makebox[1.6cm]{湿\hspace{0.5em}度} & \makebox[4.3cm][c]{\makebox[1.2cm][c]{年}／\makebox[0.8cm][c]{月}／\makebox[0.8cm][c]{日}} & \makebox[1.6cm]{温\hspace{0.5em}度} & \makebox[1.6cm]{湿\hspace{0.5em}度} \\ \cline{2-7}
 			\makebox[0.6cm]{験} & \PrintExDateDate[4.2cm]{1}                                                            & \PrintExDateTemp{1}               & \PrintExDateHumid{1}              & \PrintExDateDate[4.3cm]{5}                                                            & \PrintExDateTemp{5}               & \PrintExDateHumid{5}              \\ \cline{2-7}
@@ -282,7 +282,7 @@
 			\hline
 			\rule{0pt}{1.8em}                                                   & \raisebox{0.3em}{\makebox[9.5cm][c]{\makebox[2cm]{\PrintClassYear 年}\makebox[2cm]{\PrintClassNum 番}\makebox[2cm]{\PrintClassGroup 班}}} \\ \cline{2-2}
 			% 報告者氏名セルの配置調整
-			\rule{0pt}{1.3em}報告者氏名                                              & \makebox[9.5cm][l]{\makebox[1.8cm][l]{Email:}\makebox[7.5cm][c]{\PrintEmailID @example.ac.jp}}                                         \\ \cline{2-2}
+			\rule{0pt}{1.3em}報告者氏名                                              & \makebox[9.5cm][l]{\makebox[1.8cm][l]{Email:}\makebox[7.5cm][c]{\PrintEmailID @gm.ishikawa-nct.ac.jp}}                                 \\ \cline{2-2}
 			\rule{0pt}{1.8em}                                                   & \raisebox{0.3em}{\makebox[9.5cm][l]{\makebox[0pt][l]{氏名}\makebox[9.5cm][c]{\PrintReporter}}}                                           \\ \hline
 			% 共同実験者・氏名セルの配置調整 (\raiseboxによるベースライン補正) 
 			\rule{0pt}{1.5em}\multirow{3}{*}{\raisebox{0.8em}[0pt][0pt]{共同実験者}} & \raisebox{0.1em}{\makebox[9.5cm][c]{\PrintPartner{1}}}                                                                                 \\ \cline{2-2}
