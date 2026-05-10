@@ -1,0 +1,306 @@
+% ==========================================
+% 概要: 電子情報工学実験報告書 表紙スタイルファイル
+% (report-cover.sty) 
+% ==========================================
+
+\ProvidesPackage{report-cover}
+
+% ==========================================
+% 必須パッケージの読み込み
+% ==========================================
+\RequirePackage{iftex}
+\RequirePackage{array}
+\RequirePackage{tikz}
+\RequirePackage{multirow}
+\RequirePackage{xparse}
+
+\ifluatex
+	\RequirePackage{lmodern} % フォントサイズに関するwarningを減らす為。
+	\RequirePackage{geometry}
+	\RequirePackage{graphicx}
+\else
+	\ifxetex
+		\RequirePackage{geometry}
+		\RequirePackage{graphicx}
+	\else
+		\RequirePackage[dvipdfmx]{geometry}
+		\RequirePackage[dvipdfmx]{graphicx}
+	\fi
+\fi
+
+% エンジン別の日本語フォントパッケージの読み込み
+\ifluatex
+	\RequirePackage{luatexja-fontspec}
+\else
+	\ifxetex
+		\RequirePackage{fontspec}
+	\else
+		\RequirePackage[ipaex]{pxchfon}
+	\fi
+\fi
+
+% 表のセル内中央揃え用カスタムカラムの定義
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+
+% ==========================================
+% LaTeX3 (expl3) 構文による内部処理・変数定義
+% ==========================================
+\ExplSyntaxOn
+
+% 年月日のフォーマット変換処理 (0埋めを無効化するために \int_eval:n を使用) 
+\def\RCformatYYYYMMDD#1{\rc_parse_yyyymmdd#1\q_stop}
+\def\rc_parse_yyyymmdd#1#2#3#4#5#6#7#8\q_stop{\makebox[2cm][c]{#1#2#3#4}年\makebox[1.5cm][c]{\int_eval:n{#5#6}}月\makebox[1.5cm][c]{\int_eval:n{#7#8}}日}
+
+\def\RCformatYYYYMMDDSlash#1{\rc_parse_yyyymmdd_slash#1\q_stop}
+\def\rc_parse_yyyymmdd_slash#1#2#3#4#5#6#7#8\q_stop{\makebox[1.2cm][c]{#1#2#3#4}／\makebox[0.8cm][c]{\int_eval:n{#5#6}}／\makebox[0.8cm][c]{\int_eval:n{#7#8}}}
+
+% ユーザーが入力する各種データを保持するための変数宣言
+\tl_new:N \g_rc_exnumber_tl          % 実験題目番号
+\tl_new:N \g_rc_extitle_tl           % 実験題目名
+\clist_new:N \g_rc_teachers_clist    % 担当教員 (複数可) 
+\tl_new:N \g_rc_deadline_tl          % 提出締切日
+\tl_new:N \g_rc_submit_tl            % 提出日
+\tl_new:N \g_rc_resubmit_tl          % 再提出日
+\clist_new:N \g_rc_exdates_clist     % 実施日・温度・湿度のリスト
+\tl_new:N \g_rc_class_y_tl           % 学年
+\tl_new:N \g_rc_class_n_tl           % 番号
+\tl_new:N \g_rc_class_g_tl           % 班
+\tl_new:N \g_rc_email_tl             % メールアドレスのID部分
+\tl_new:N \g_rc_reporter_tl          % 報告者氏名
+\clist_new:N \g_rc_partners_clist    % 共同実験者氏名リスト
+
+% ==========================================
+% メインファイル (ユーザー側) で設定するための入力コマンド
+% ==========================================
+\NewDocumentCommand{\exnumber}{m}{\tl_gset:Nn \g_rc_exnumber_tl {#1}}
+\NewDocumentCommand{\extitle}{m}{\tl_gset:Nn \g_rc_extitle_tl {#1}}
+\NewDocumentCommand{\teachers}{m}{\clist_gset:Nn \g_rc_teachers_clist {#1}}
+\NewDocumentCommand{\deadlinedate}{m}{\tl_gset:Nn \g_rc_deadline_tl {#1}}
+\NewDocumentCommand{\submitdate}{m}{\tl_gset:Nn \g_rc_submit_tl {#1}}
+\NewDocumentCommand{\resubmitdate}{m}{\tl_gset:Nn \g_rc_resubmit_tl {#1}}
+\NewDocumentCommand{\exdates}{m}{\clist_gset:Nn \g_rc_exdates_clist {#1}}
+\NewDocumentCommand{\reporterclass}{mmm}{
+	\tl_gset:Nn \g_rc_class_y_tl {#1}
+	\tl_gset:Nn \g_rc_class_n_tl {#2}
+	\tl_gset:Nn \g_rc_class_g_tl {#3}
+}
+\NewDocumentCommand{\reportername}{mm}{
+	\tl_gset:Nn \g_rc_email_tl {#1}
+	\tl_gset:Nn \g_rc_reporter_tl {#2}
+}
+\NewDocumentCommand{\partnernames}{m}{\clist_gset:Nn \g_rc_partners_clist {#1}}
+
+% ==========================================
+% 内部データ展開用コマンドの実装
+% ==========================================
+\cs_new:Npn \rc_invoke_yyyymmdd:n #1 { \RCformatYYYYMMDD {#1} }
+\cs_generate_variant:Nn \rc_invoke_yyyymmdd:n { V }
+\cs_new:Npn \rc_invoke_yyyymmdd_slash:n #1 { \RCformatYYYYMMDDSlash {#1} }
+\cs_generate_variant:Nn \rc_invoke_yyyymmdd_slash:n { V }
+
+\NewDocumentCommand{\PrintExNumber}{}{\tl_use:N \g_rc_exnumber_tl}
+\NewDocumentCommand{\PrintExTitle}{}{\tl_use:N \g_rc_extitle_tl}
+\NewDocumentCommand{\PrintClassYear}{}{\tl_use:N \g_rc_class_y_tl}
+\NewDocumentCommand{\PrintClassNum}{}{\tl_use:N \g_rc_class_n_tl}
+\NewDocumentCommand{\PrintClassGroup}{}{\tl_use:N \g_rc_class_g_tl}
+\NewDocumentCommand{\PrintEmailID}{}{\tl_use:N \g_rc_email_tl}
+\NewDocumentCommand{\PrintReporter}{}{\tl_use:N \g_rc_reporter_tl}
+
+% 担当教員のリストを展開して出力
+\NewDocumentCommand{\PrintTeachers}{}{
+	（実験担当教員名：\hspace{0.5cm}
+	\int_gzero:N \g_tmpa_int
+	\int_set:Nn \l_tmpb_int { \clist_count:N \g_rc_teachers_clist }
+	\begin{tabular}[t]{@{}l@{\hspace{0.5cm}}l@{}}
+		\clist_map_inline:Nn \g_rc_teachers_clist {
+			\int_gincr:N \g_tmpa_int
+		##1 & 教員
+			\int_compare:nTF { \g_tmpa_int = \l_tmpb_int }
+			{）}
+			{\\}
+		}
+	\end{tabular}
+}
+
+% 提出日関連の展開処理 (未入力時は空欄枠を出力) 
+\NewDocumentCommand{\PrintDeadline}{}{
+	\tl_if_empty:NTF \g_rc_deadline_tl {
+		\makebox[2cm][c]{}年\makebox[1.5cm][c]{}月\makebox[1.5cm][c]{}日
+	} {
+		\rc_invoke_yyyymmdd:V \g_rc_deadline_tl
+	}
+}
+
+\NewDocumentCommand{\PrintSubmit}{}{
+	\tl_if_empty:NTF \g_rc_submit_tl {
+		\makebox[2cm][c]{}年\makebox[1.5cm][c]{}月\makebox[1.5cm][c]{}日
+	} {
+		\rc_invoke_yyyymmdd:V \g_rc_submit_tl
+	}
+}
+
+\NewDocumentCommand{\PrintResubmit}{}{
+	\tl_if_empty:NTF \g_rc_resubmit_tl {
+		\makebox[2cm][c]{}年\makebox[1.5cm][c]{}月\makebox[1.5cm][c]{}日
+	} {
+		\rc_invoke_yyyymmdd:V \g_rc_resubmit_tl
+	}
+}
+
+\NewDocumentCommand{\PrintPartner}{m}{
+	\clist_item:Nn \g_rc_partners_clist {#1}
+}
+
+% 実施日リスト (日付、温度、湿度) のパース処理
+\NewDocumentCommand{\PrintExDateDate}{O{4.2cm} m}{
+	\tl_set:Nx \l_tmpa_tl { \clist_item:Nn \g_rc_exdates_clist {#2} }
+	\tl_if_empty:NTF \l_tmpa_tl {
+		\makebox[#1][c]{\makebox[1.2cm][c]{}／\makebox[0.8cm][c]{}／\makebox[0.8cm][c]{}}
+	} {
+		\seq_set_split:NnV \l_tmpa_seq { / } \l_tmpa_tl
+		\tl_set:Nx \l_tmpa_tl { \seq_item:Nn \l_tmpa_seq { 1 } }
+		\makebox[#1][c]{\rc_invoke_yyyymmdd_slash:V \l_tmpa_tl}
+	}
+}
+
+\NewDocumentCommand{\PrintExDateTemp}{m}{
+	\tl_set:Nx \l_tmpa_tl { \clist_item:Nn \g_rc_exdates_clist {#1} }
+	\tl_if_empty:NTF \l_tmpa_tl {
+		\makebox[1.6cm][r]{℃}
+	} {
+		\seq_set_split:NnV \l_tmpa_seq { / } \l_tmpa_tl
+		\makebox[1.6cm][r]{\seq_item:Nn \l_tmpa_seq { 2 }℃}
+	}
+}
+
+\NewDocumentCommand{\PrintExDateHumid}{m}{
+	\tl_set:Nx \l_tmpa_tl { \clist_item:Nn \g_rc_exdates_clist {#1} }
+	\tl_if_empty:NTF \l_tmpa_tl {
+		\makebox[1.6cm][r]{\%}
+	} {
+		\seq_set_split:NnV \l_tmpa_seq { / } \l_tmpa_tl
+		\makebox[1.6cm][r]{\seq_item:Nn \l_tmpa_seq { 3 }\hspace*{1mm}\%}
+	}
+}
+
+\ExplSyntaxOff
+
+% ==========================================
+% 表紙を出力するメインコマンド \makecover
+% ==========================================
+\newcommand{\makecover}{
+	% 表紙専用の余白設定
+	\newgeometry{top=15mm, bottom=10mm, left=10mm, right=10mm}
+	\thispagestyle{empty} % ページ番号を非表示にする
+
+	% 表紙のフォント設定をグループ化して本文への影響を防ぐ
+	\begingroup
+	% コンパイルエンジンに応じた明朝体フォントの強制適用
+	\ifluatex
+		\jfontspec{IPAexMincho}
+	\else\ifxetex
+			\fontspec{ipaexm.ttf}
+			\CJKfontspec{ipaexm.ttf}
+		\else
+			\mcfamily
+		\fi\fi
+
+	% ページ上部の切り取り描画
+	\begin{tikzpicture}[remember picture, overlay]
+		\node at ([yshift=-6mm]current page.north west) [anchor=west, xshift=30mm] {\scalebox{0.8}[1]{\texttt{-----}}};
+		\node at ([yshift=-6mm]current page.north) {\scalebox{0.8}[1]{\texttt{-----}}};
+		\node at ([yshift=-6mm]current page.north east) [anchor=east, xshift=-30mm] {\scalebox{0.8}[1]{\texttt{-----}}};
+	\end{tikzpicture}
+
+	\vspace{-4ex}
+
+	% 右上の 受理・評点 記入欄
+	\noindent\hspace{0.53\linewidth}\fontsize{14pt}{18pt}\selectfont\begin{tabular}{|M{1.2cm}|M{4.6cm}|}
+		\hline
+		受理 & \rule{0pt}{1.0cm} \\
+		\hline
+		評点 & \rule{0pt}{1.0cm} \\
+		\hline
+	\end{tabular}
+
+	\vspace{7pt}
+
+	% タイトル
+	\begin{center}
+		{\fontsize{30pt}{40pt}\selectfont\underline{電子情報工学実験報告書}}
+	\end{center}
+
+	\vspace{8pt}
+
+	% 実験題目番号・題目名・担当教員の記述ブロック
+	\begin{center}
+		{\fontsize{17pt}{20pt}\selectfont\begin{tabular}{|p{3.7cm}|p{10cm}|}
+				\hline
+				\rule{0pt}{1.5em}実験題目番号 & \underline{No.\makebox[0.8cm][c]{\PrintExNumber}}         \\[1em]
+				実験題目名                   & \begin{minipage}[t]{10cm}
+					                          \begin{minipage}[t]{9.5cm}
+						\centering
+						\PrintExTitle \par
+						\vspace{-0.9em}
+						\rule{\linewidth}{0.4pt}
+					\end{minipage} \par
+					                          \vspace{0.5em}
+					                          \hfill {\fontsize{15pt}{18pt}\selectfont \PrintTeachers}
+					                          \vspace{0.5em}
+				                          \end{minipage} \\[0.5em]
+				\hline
+			\end{tabular}}
+	\end{center}
+
+	\vspace{5pt}
+
+	% 提出関連の日付記述ブロック
+	\begin{center}
+		{\fontsize{17pt}{21pt}\selectfont
+			\underline{\makebox[3.5cm][l]{提出締切日}\hspace{1cm}\PrintDeadline} \\[1em]
+			\underline{\makebox[3.5cm][l]{提出日}\hspace{1cm}\PrintSubmit} \\[1em]
+			\underline{\makebox[3.5cm][l]{再提出日}\hspace{1cm}\PrintResubmit}
+		}
+	\end{center}
+
+	\vspace{15pt}
+
+	% 実施日・温度・湿度の一覧表 (最大8回分) 
+	\noindent\makebox[\linewidth][c]{\begingroup\renewcommand{\arraystretch}{1.1}\setlength{\extrarowheight}{0.1em}\begin{tabular}{|c|c|c|c||c|c|c|}
+			\hline
+			\makebox[0.6cm]{実} & \makebox[4.2cm][c]{\makebox[1.2cm][c]{年}／\makebox[0.8cm][c]{月}／\makebox[0.8cm][c]{日}} & \makebox[1.6cm]{温\hspace{0.5em}度} & \makebox[1.6cm]{湿\hspace{0.5em}度} & \makebox[4.3cm][c]{\makebox[1.2cm][c]{年}／\makebox[0.8cm][c]{月}／\makebox[0.8cm][c]{日}} & \makebox[1.6cm]{温\hspace{0.5em}度} & \makebox[1.6cm]{湿\hspace{0.5em}度} \\ \cline{2-7}
+			\makebox[0.6cm]{験} & \PrintExDateDate[4.2cm]{1}                                                            & \PrintExDateTemp{1}               & \PrintExDateHumid{1}              & \PrintExDateDate[4.3cm]{5}                                                            & \PrintExDateTemp{5}               & \PrintExDateHumid{5}              \\ \cline{2-7}
+			\makebox[0.6cm]{実} & \PrintExDateDate[4.2cm]{2}                                                            & \PrintExDateTemp{2}               & \PrintExDateHumid{2}              & \PrintExDateDate[4.3cm]{6}                                                            & \PrintExDateTemp{6}               & \PrintExDateHumid{6}              \\ \cline{2-7}
+			\makebox[0.6cm]{施} & \PrintExDateDate[4.2cm]{3}                                                            & \PrintExDateTemp{3}               & \PrintExDateHumid{3}              & \PrintExDateDate[4.3cm]{7}                                                            & \PrintExDateTemp{7}               & \PrintExDateHumid{7}              \\ \cline{2-7}
+			\makebox[0.6cm]{日} & \PrintExDateDate[4.2cm]{4}                                                            & \PrintExDateTemp{4}               & \PrintExDateHumid{4}              & \PrintExDateDate[4.3cm]{8}                                                            & \PrintExDateTemp{8}               & \PrintExDateHumid{8}              \\ \hline
+		\end{tabular}\endgroup}
+
+	\vspace{20pt}
+
+	% 報告者・共同実験者の情報記述ブロック
+	\noindent\makebox[\linewidth][c]{\begingroup\renewcommand{\arraystretch}{1.3}\fontsize{15pt}{17pt}\selectfont\begin{tabular}{|c|p{9.5cm}|}
+			\hline
+			\rule{0pt}{1.8em}                                                   & \raisebox{0.3em}{\makebox[9.5cm][c]{\makebox[2cm]{\PrintClassYear 年}\makebox[2cm]{\PrintClassNum 番}\makebox[2cm]{\PrintClassGroup 班}}} \\ \cline{2-2}
+			% 報告者氏名セルの配置調整
+			\rule{0pt}{1.3em}報告者氏名                                              & \makebox[9.5cm][l]{\makebox[1.8cm][l]{Email:}\makebox[7.5cm][c]{\PrintEmailID @example.ac.jp}}                                         \\ \cline{2-2}
+			\rule{0pt}{1.8em}                                                   & \raisebox{0.3em}{\makebox[9.5cm][l]{\makebox[0pt][l]{氏名}\makebox[9.5cm][c]{\PrintReporter}}}                                           \\ \hline
+			% 共同実験者・氏名セルの配置調整 (\raiseboxによるベースライン補正) 
+			\rule{0pt}{1.5em}\multirow{3}{*}{\raisebox{0.8em}[0pt][0pt]{共同実験者}} & \raisebox{0.1em}{\makebox[9.5cm][c]{\PrintPartner{1}}}                                                                                 \\ \cline{2-2}
+			\rule{0pt}{1.5em}                                                   & \raisebox{0.1em}{\makebox[9.5cm][c]{\PrintPartner{2}}}                                                                                 \\ \cline{2-2}
+			\rule{0pt}{1.3em}\raisebox{0.8em}[0pt][0pt]{氏名}                     & \makebox[9.5cm][c]{\PrintPartner{3}}                                                                                                   \\ \hline
+		\end{tabular}\endgroup}
+
+	% 学科名表示
+	\begin{center}
+		{\fontsize{17pt}{19pt}\selectfont 石川工業高等専門学校\quad 電子情報工学科}
+	\end{center}
+
+	% 表紙フォント設定のグループ終了
+	\endgroup
+
+	\clearpage
+	% 表紙の次のページを1ページ目としてカウントする処理
+	\setcounter{page}{1}
+	% 本文用に余白設定をリセット
+	\restoregeometry
+}
