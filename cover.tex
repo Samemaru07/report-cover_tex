@@ -7,7 +7,7 @@
 \usepackage{multirow}
 \usepackage{graphicx}
 
-\geometry{top=10mm, bottom=10mm, left=10mm, right=10mm}
+\geometry{top=15mm, bottom=10mm, left=10mm, right=10mm}
 
 \setmainjfont{IPAexMincho}
 \setsansjfont{IPAexGothic}
@@ -18,9 +18,9 @@
 \thispagestyle{empty}
 
 \begin{tikzpicture}[remember picture, overlay]
-	\node at ([yshift=-8mm]current page.north west) [anchor=west, xshift=30mm] {\scalebox{0.8}[1]{\texttt{-----}}};
-	\node at ([yshift=-8mm]current page.north) {\scalebox{0.8}[1]{\texttt{-----}}};
-	\node at ([yshift=-8mm]current page.north east) [anchor=east, xshift=-30mm] {\scalebox{0.8}[1]{\texttt{-----}}};
+	\node at ([yshift=-6mm]current page.north west) [anchor=west, xshift=30mm] {\scalebox{0.8}[1]{\texttt{-----}}};
+	\node at ([yshift=-6mm]current page.north) {\scalebox{0.8}[1]{\texttt{-----}}};
+	\node at ([yshift=-6mm]current page.north east) [anchor=east, xshift=-30mm] {\scalebox{0.8}[1]{\texttt{-----}}};
 \end{tikzpicture}
 
 \vspace{-4ex}
@@ -71,14 +71,14 @@
 
 \noindent\makebox[\linewidth][c]{
 	\begingroup
-	\renewcommand{\arraystretch}{0.95}
+	\renewcommand{\arraystretch}{0.98}
 	\begin{tabular}{|c|c|c|c||c|c|c|}
 		\hline
-		\makebox[0.6cm]{実} & \makebox[4.2cm]{ 年／ 月 ／日 }                                       & \makebox[1.6cm]{温\hspace{0.5em}度}  & \makebox[1.6cm]{湿\hspace{0.5em}度}   & \makebox[4.3cm]{ 年／ 月 ／日 }                                       & \makebox[1.6cm]{温\hspace{0.5em}度}  & \makebox[1.6cm]{湿\hspace{0.5em}度}   \\ \cline{2-7}
-		\makebox[0.6cm]{験} & \makebox[4.2cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} & \makebox[4.3cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} \\ \cline{2-7}
-		\makebox[0.6cm]{実} & \makebox[4.2cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} & \makebox[4.3cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} \\ \cline{2-7}
-		\makebox[0.6cm]{施} & \makebox[4.2cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} & \makebox[4.3cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} \\ \cline{2-7}
-		\makebox[0.6cm]{日} & \makebox[4.2cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} & \makebox[4.3cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃\hspace*{2mm}} & \makebox[1.6cm][r]{\%\hspace*{2mm}} \\ \hline
+		\makebox[0.6cm]{実} & \makebox[4.2cm]{ 年／ 月 ／日 }                                       & \makebox[1.6cm]{温\hspace{0.5em}度} & \makebox[1.6cm]{湿\hspace{0.5em}度} & \makebox[4.3cm]{ 年／ 月 ／日 }                                       & \makebox[1.6cm]{温\hspace{0.5em}度} & \makebox[1.6cm]{湿\hspace{0.5em}度} \\ \cline{2-7}
+		\makebox[0.6cm]{験} & \makebox[4.2cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃}             & \makebox[1.6cm][r]{\%}            & \makebox[4.3cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃}             & \makebox[1.6cm][r]{\%}            \\ \cline{2-7}
+		\makebox[0.6cm]{実} & \makebox[4.2cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃}             & \makebox[1.6cm][r]{\%}            & \makebox[4.3cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃}             & \makebox[1.6cm][r]{\%}            \\ \cline{2-7}
+		\makebox[0.6cm]{施} & \makebox[4.2cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃}             & \makebox[1.6cm][r]{\%}            & \makebox[4.3cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃}             & \makebox[1.6cm][r]{\%}            \\ \cline{2-7}
+		\makebox[0.6cm]{日} & \makebox[4.2cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃}             & \makebox[1.6cm][r]{\%}            & \makebox[4.3cm][c]{\hspace{0.8cm}／\hspace{0.8cm}／\hspace{0.8cm}} & \makebox[1.6cm][r]{℃}             & \makebox[1.6cm][r]{\%}            \\ \hline
 	\end{tabular}
 	\endgroup
 }
