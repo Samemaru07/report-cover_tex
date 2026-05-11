@@ -8,10 +8,7 @@
 このスタイルファイルを使うことで、**コマンドに引数を渡すだけで、指定書式に準拠した表紙を出力**できます。
 表紙出力後は余白・フォント設定が自動でリセットされるため、本文はそのまま同じファイルに書き続けられます。
 
-> [!NOTE]
-> 報告者氏名の Email のドメイン名はプレースホルダとなっています。
-
-> [最小構成の例]セクションでコンパイルしたサンプルPDF: [sample.pdf](./sample.pdf)
+> [最小構成の例]セクションでコンパイルしたサンプル PDF: [sample.pdf](./sample.pdf)
 
 ![表紙サンプル](./sample.png)
 
@@ -21,10 +18,13 @@
 
 ```
 .
-├── cover.tex           # スタイルファイルを使わず直書きした TeX ファイル（参考用）
-├── main.tex            # スタイルファイルを適用した TeX ファイル（使用例）
-├── report-cover.sty    # 表紙スタイルファイル（本体）
-└── sample.pdf          # コンパイル済みサンプル
+├ LICENSE
+├ README.md
+├ cover.tex           # スタイルファイルを使わず直書きした TeX ファイル (参考用)
+├ main.tex            # スタイルファイルを適用した TeX ファイル (使用例)
+├ report-cover.sty    # 表紙スタイルファイル (本体)
+├ sample.pdf          # コンパイル済みサンプル
+└ sample.png          # サンプルのスクリーンショット (README 用)
 ```
 
 ---
@@ -60,60 +60,33 @@
 
 ## 使い方
 
-### 必須プリアンブルと推奨 `latexmk` の config
+- ドキュメントクラスは問いません。
 
-#### 1. LuaLaTeX（推奨）
+1. 本リポジトリから `report-cover.sty` をダウンロードし、プロジェクトルートに移動。
+    > [!IMPORTANT]
+    > 本リポジトリでは、報告者氏名の Email のドメイン名はプレースホルダーとなっています。
+2. プリアンブルに `\usepackage{report-cover}` コマンドを記入し、スタイルファイルを読み込む。
+3. [コマンド一覧](#-コマンド一覧)セクションより、`document` 環境内でコマンドに各値を与える。
+4. `\makecover` コマンドを用いて表紙を出力。
 
-- `.tex` ファイル
+### コマンド一覧
 
-```tex
-\documentclass[a4paper,12pt]{ltjsreport}
-\usepackage{report-cover}
-```
+未入力の場合は空欄として出力されます。
 
-- `.latexmkrc` ファイル
+|          項目          |               コマンド               |                                                    引数                                                    | 備考                                                       |
+| :--------------------: | :----------------------------------: | :--------------------------------------------------------------------------------------------------------: | ---------------------------------------------------------- |
+|      実験題目番号      |          `\exnumber{番号}`           |                                            番号を数字のみで入力                                            |                                                            |
+|       実験題目名       |          `\extitle{題目名}`          |                                                 題目を入力                                                 | `\\` を入力することで、題目内改行が可能。                  |
+|     実験担当教員名     |  `\teachers{教員名1, 教員名2, ...}`  |                        実験担当教員名をカンマ区切りで指定する。複数人の指定が可能。                        | 姓名間の空白も反映されます。                               |
+|       提出締切日       |      `\deadlinedate{YYYYMMDD}`       |                                              西暦8ケタで入力                                               | 1ケタ台の月日な場合、自動で十の位の0が抜けます。           |
+|         提出日         |       `\submitdate{YYYYMMDD}`        |                                              西暦8ケタで入力                                               | 1ケタ台の月日な場合、自動で十の位の0が抜けます。           |
+|        再提出日        |      `\resubmitdate{YYYYMMDD}`       |                                              西暦8ケタで入力                                               |                                                            |
+|       実験実施日       |    `\exdates{YYYYMMDD/温度/湿度}`    | 西暦8ケタ, 温度, 湿度のセットをスラッシュ区切りにし、複数回分をカンマ区切りで指定する。最大8回分まで対応。 | 入力したケタ数で表示されます。有効数字の補正はありません。 |
+| 報告者の学年・番号・班 |     `\reporterclass{年}{番}{班}`     |                                            学年, 番号, 班を指定                                            |                                                            |
+|  報告者の Email・氏名  |   `\reportername{ユーザ名}{氏名}`    |                           第1引数にメールアドレスのユーザ名, 第2引数に氏名を入力                           | ドメイン名は不要です。姓名間の空白も反映されます。         |
+|     共同実験者氏名     | `\partnernames{氏名1, 氏名2, 氏名3}` |                        共同実験者の氏名をカンマ区切りで指定する。最大3名まで対応。                         | 姓名間の空白も反映されます。                               |
 
-```perl
-$pdf_mode = 4;
-$lualatex = "lualatex %O -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error %S";
-```
-
-#### 2. upLaTeX
-
-- `.tex` ファイル
-
-```tex
-\documentclass[a4j,12pt,uplatex,dvipdfmx]{ujreport}
-\usepackage{report-cover}
-```
-
-- `.latexmkrc` ファイル
-
-```perl
-$pdf_mode = 3;
-$latex = "uplatex %O -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error %S";
-$dvipdf = "dvipdfmx %O -o %D %S";
-```
-
-#### 3. XeLaTeX
-
-- `.tex` ファイル
-
-```tex
-\documentclass[a4paper,12pt,ja=standard,jafont=ipaex]{bxjsreport}
-\usepackage{report-cover}
-```
-
-- `.latexmkrc` ファイル
-
-```perl
-$pdf_mode = 5;
-$xelatex = "xelatex %O -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error %S";
-```
-
----
-
-## 最小構成の例
+### 最小構成の例
 
 ```tex
 % LuaLaTeX です
@@ -125,6 +98,7 @@ $xelatex = "xelatex %O -synctex=1 -interaction=nonstopmode -file-line-error -hal
 
 \begin{document}
 
+% 表紙の各値
 \exnumber{1}
 \extitle{ニュートロンジャマー干渉下における\\通信特性の検証}
 \teachers{キラ ヤマト, 酒寄 彩葉}
@@ -136,6 +110,7 @@ $xelatex = "xelatex %O -synctex=1 -interaction=nonstopmode -file-line-error -hal
 \reportername{p123456}{森亜 るるか}
 \partnernames{明智 あんな, 小林 みくる}
 
+% 表紙の出力
 \makecover
 
 % ここから本文
@@ -144,23 +119,6 @@ $xelatex = "xelatex %O -synctex=1 -interaction=nonstopmode -file-line-error -hal
 \end{document}
 
 ```
-
-## コマンド一覧
-
-未入力の場合は空欄として出力されます。
-
-|          項目          |               コマンド               |                                                    引数                                                    | 備考                                                       |
-| :--------------------: | :----------------------------------: | :--------------------------------------------------------------------------------------------------------: | ---------------------------------------------------------- |
-|      実験題目番号      |          `\exnumber{番号}`           |                                            番号を数字のみで入力                                            |                                                            |
-|       実験題目名       |          `\extitle{題目名}`          |                                                 題目を入力                                                 | `\\` を入力することで、題目内改行が可能。                  |
-|     実験担当教員名     |  `\teachers{教員名1, 教員名2, ...}`  |                        実験担当教員名をカンマ区切りで指定する。複数人の指定が可能。                        | 空白も入力してください。                                   |
-|       提出締切日       |      `\deadlinedate{YYYYMMDD}`       |                                              西暦8ケタで入力                                               | 1ケタ台の月日な場合、自動で十の位の0が抜けます。           |
-|         提出日         |       `\submitdate{YYYYMMDD}`        |                                              西暦8ケタで入力                                               | 1ケタ台の月日な場合、自動で十の位の0が抜けます。           |
-|        再提出日        |      `\resubmitdate{YYYYMMDD}`       |                                              西暦8ケタで入力                                               |                                                            |
-|       実験実施日       |    `\exdates{YYYYMMDD/温度/湿度}`    | 西暦8ケタ, 温度, 湿度のセットをスラッシュ区切りにし、複数回分をカンマ区切りで指定する。最大8回分まで対応。 | 入力したケタ数で表示されます。有効数字の補正はありません。 |
-| 報告者の学年・番号・班 |     `\reporterclass{年}{番}{班}`     |                                            学年, 番号, 班を指定                                            |                                                            |
-|  報告者の Email・氏名  |   `\reportername{ユーザ名}{氏名}`    |                           第1引数にメールアドレスのユーザ名, 第2引数に氏名を入力                           | ドメイン名は不要です。名前の空白も入力してください。       |
-|     共同実験者氏名     | `\partnernames{氏名1, 氏名2, 氏名3}` |                        共同実験者の氏名をカンマ区切りで指定する。最大3名まで対応。                         | 名前の空白も入力してください。                             |
 
 ---
 
