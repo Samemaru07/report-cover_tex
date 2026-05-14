@@ -60,12 +60,23 @@
 
 ## 使い方
 
-- ドキュメントクラスは問いません。
-
 1. 本リポジトリから `report-cover.sty` をダウンロードし、プロジェクトルートに移動。
     > [!IMPORTANT]
     > 本リポジトリでは、報告者氏名の Email のドメイン名はプレースホルダーとなっています。
 2. プリアンブルに `\usepackage{report-cover}` コマンドを記入し、スタイルファイルを読み込む。
+
+- **upLaTeX での注意点**
+    - js 系クラス (`jsarticle`, `jsreport` 等) を使用する場合、`nomag` オプションが必要です。\
+      例:
+        ```tex
+        \documentclass[a4paper, 11pt, nomag]{jsarticle}
+        ```
+    - `nomag` 使用時、`jsarticle.cls` 内部処理に起因する以下の警告が出ますが、出力への影響はありません。
+        ```
+        LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <9.59998> not available size <10> substituted
+        LaTeX Font Warning: Size substitutions with differences up to 0.40002pt have occurred.
+        ```
+
 3. [コマンド一覧](#-コマンド一覧)セクションより、`document` 環境内でコマンドに各値を与える。
 4. `\makecover` コマンドを用いて表紙を出力。
 

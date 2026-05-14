@@ -11,7 +11,6 @@
 \RequirePackage{iftex}      % エンジン判定 (\ifluatex, \ifxetex 等)
 \RequirePackage{array}      % 表のカラム定義拡張 (M カラム型の定義に使用)
 \PassOptionsToPackage{dvipsnames,svgnames}{xcolor}
-\RequirePackage{tikz}       % ページ上部の切り取り線描画に使用
 \RequirePackage{multirow}   % 表内のセル結合 (\multirow) に使用
 \RequirePackage{xparse}     % \NewDocumentCommand による引数付きコマンド定義に使用
 
@@ -26,12 +25,14 @@
 		\RequirePackage{graphicx}
 	\else
 		% upLaTeX: dvipdfmx ドライバを明示する必要がある
-		\PassOptionsToPackage{dvipdfmx}{geometry}
-		\PassOptionsToPackage{dvipdfmx}{graphicx}
+		\def\pgfsysdriver{pgfsys-dvipdfmx.def}   % ← 追加（\RequirePackage{tikz} より前）
+		\RequirePackage{lmodern}
 		\RequirePackage[dvipdfmx]{geometry}
 		\RequirePackage[dvipdfmx]{graphicx}
 	\fi
 \fi
+
+\RequirePackage{tikz}       % ページ上部の切り取り線描画に使用
 
 % エンジン別の日本語フォントパッケージの読み込み
 % LuaLaTeX : luatexja-fontspec (\jfontspec による和文フォント指定)
@@ -220,8 +221,7 @@
 % ==========================================
 % 表紙を出力するメインコマンド \makecover
 % ==========================================
-\providecommand{\makecover}{}
-\renewcommand{\makecover}{
+\newcommand{\makecover}{
 	% 表紙専用の余白設定
 	% \restoregeometry により、\makecover 終了後は元の余白に戻る
 	\newgeometry{top=15mm, bottom=10mm, left=10mm, right=10mm}
