@@ -69,6 +69,38 @@
 3. [コマンド一覧](#-コマンド一覧)セクションより、`document` 環境内でコマンドに各値を与える。
 4. `\makecover` コマンドを用いて表紙を出力。
 
+### エンジン別の注意点
+
+**upLaTeX**
+
+- js 系クラス (`jsarticle`, `jsreport` 等) を使用する場合、`nomag` オプションが必要です。
+
+```tex
+    \documentclass[a4paper, 11pt, nomag]{jsarticle}
+```
+
+- `nomag` 使用時、`jsarticle.cls` 内部処理に起因する以下の警告が出ますが、出力への影響はありません。
+
+```
+    LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <9.59998> not available size <10> substituted
+    LaTeX Font Warning: Size substitutions with differences up to 0.40002pt have occurred.
+```
+
+**XeLaTeX**
+
+- bxjs 系クラス (`bxjsarticle`, `bxjsreport` 等) を使用する場合、`\geometry` に `reset` オプションが必要です。
+
+```tex
+    \geometry{reset, top=25mm, bottom=25mm, left=25mm, right=25mm}
+```
+
+- `reset` を省略すると、クラス内部の geometry 設定と競合し、以下の警告が出ます。
+
+```
+    Package geometry Warning: Over-specification in `h'-direction.
+    Package geometry Warning: Over-specification in `v'-direction.
+```
+
 ### コマンド一覧
 
 未入力の場合は空欄として出力されます。
