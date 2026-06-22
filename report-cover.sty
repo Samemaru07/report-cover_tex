@@ -9,13 +9,14 @@
 % 変更してください
 % ==========================================
 % 報告者の Email ドメイン名 (@ より後ろの部分)
-\def\RCemailDomain{gm.ishikawa-nct.ac.jp}
+\def\RCemailDomain{example.ac.jp}
 
 % ==========================================
 % 必須パッケージの読み込み
 % ==========================================
 \RequirePackage{iftex}      % エンジン判定 (\ifluatex, \ifxetex 等)
 \RequirePackage{array}      % 表のカラム定義拡張 (M カラム型の定義に使用)
+\PassOptionsToPackage{dvipsnames,svgnames}{xcolor}  % xcolor のオプション競合を防ぐため tikz より前に指定
 \RequirePackage{tikz}       % ページ上部の切り取り線描画に使用
 \RequirePackage{multirow}   % 表内のセル結合 (\multirow) に使用
 \RequirePackage{xparse}     % \NewDocumentCommand による引数付きコマンド定義に使用
