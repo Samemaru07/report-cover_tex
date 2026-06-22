@@ -167,15 +167,15 @@
 
 % 表紙の各値
 \exnumber{1}
-\extitle{ニュートロンジャマー干渉下における\\通信特性の検証}
-\teachers{キラ ヤマト, 酒寄 彩葉}
+\extitle{サンプルです}
+\teachers{石川 太郎, 山田 花子}
 \deadlinedate{20260515}
 \submitdate{20260514}
 \resubmitdate{}
 \exdates{20260501/24.5/50, 20260508/25.2/48}
 \reporterclass{4}{1}{2}
-\reportername{p123456}{森亜 るるか}
-\partnernames{明智 あんな, 小林 みくる}
+\reportername{p123456}{石川 一郎}
+\partnernames{鈴木 誠, 石川 高専}
 
 % 表紙の出力
 \makecover
