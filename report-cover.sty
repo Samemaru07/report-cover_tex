@@ -6,11 +6,18 @@
 \ProvidesPackage{report-cover}
 
 % ==========================================
+% 変更してください
+% ==========================================
+% 報告者の Email ドメイン名 (@ より後ろの部分)
+\def\RCemailDomain{example.ac.jp}
+
+% ==========================================
 % 必須パッケージの読み込み
 % ==========================================
 \RequirePackage{iftex}      % エンジン判定 (\ifluatex, \ifxetex 等)
 \RequirePackage{array}      % 表のカラム定義拡張 (M カラム型の定義に使用)
-\PassOptionsToPackage{dvipsnames,svgnames}{xcolor}
+\PassOptionsToPackage{dvipsnames,svgnames}{xcolor}  % xcolor のオプション競合を防ぐため tikz より前に指定
+\RequirePackage{tikz}       % ページ上部の切り取り線描画に使用
 \RequirePackage{multirow}   % 表内のセル結合 (\multirow) に使用
 \RequirePackage{xparse}     % \NewDocumentCommand による引数付きコマンド定義に使用
 
@@ -25,14 +32,10 @@
 		\RequirePackage{graphicx}
 	\else
 		% upLaTeX: dvipdfmx ドライバを明示する必要がある
-		\def\pgfsysdriver{pgfsys-dvipdfmx.def}   % ← 追加（\RequirePackage{tikz} より前）
-		\RequirePackage{lmodern}
 		\RequirePackage[dvipdfmx]{geometry}
 		\RequirePackage[dvipdfmx]{graphicx}
 	\fi
 \fi
-
-\RequirePackage{tikz}       % ページ上部の切り取り線描画に使用
 
 % エンジン別の日本語フォントパッケージの読み込み
 % LuaLaTeX : luatexja-fontspec (\jfontspec による和文フォント指定)
@@ -321,7 +324,7 @@
 			\hline
 			\rule{0pt}{1.8em}                                                   & \raisebox{0.3em}{\makebox[9.5cm][c]{\makebox[2cm]{\PrintClassYear 年}\makebox[2cm]{\PrintClassNum 番}\makebox[2cm]{\PrintClassGroup 班}}} \\ \cline{2-2}
 			% 報告者氏名セルの配置調整
-			\rule{0pt}{1.3em}報告者氏名                                              & \makebox[9.5cm][l]{\makebox[1.8cm][l]{Email:}\makebox[7.5cm][c]{\PrintEmailID @example.ac.jp}}                                         \\ \cline{2-2}
+			\rule{0pt}{1.3em}報告者氏名                                              & \makebox[9.5cm][l]{\makebox[1.8cm][l]{Email:}\makebox[7.5cm][c]{\PrintEmailID @\RCemailDomain}}                                        \\ \cline{2-2}
 			\rule{0pt}{1.8em}                                                   & \raisebox{0.3em}{\makebox[9.5cm][l]{\makebox[0pt][l]{氏名}\makebox[9.5cm][c]{\PrintReporter}}}                                           \\ \hline
 			% 共同実験者・氏名セルの配置調整 (\raisebox によるベースライン補正)
 			\rule{0pt}{1.5em}\multirow{3}{*}{\raisebox{0.8em}[0pt][0pt]{共同実験者}} & \raisebox{0.1em}{\makebox[9.5cm][c]{\PrintPartner{1}}}                                                                                 \\ \cline{2-2}
