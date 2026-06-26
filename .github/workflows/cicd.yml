@@ -1,0 +1,34 @@
+---
+# ワークフローの名前
+name: Compile TeX Cover
+
+# いつこの処理を実行するか (mainもしくはdevelopブランチへのPR作成・更新時)
+on:
+    pull_request:
+        branches:
+            - main
+            - develop
+
+# 実行するジョブの内容
+jobs:
+    build-lualatex:
+        name: Build with LuaLaTeX
+        runs-on: ubuntu-latest # 最新のUbuntu仮想サーバ (ランナ) を借りて実行
+
+        steps:
+            # 1. 自分のリポジトリのコードを仮想サーバ上に持ってくる (チェックアウト)
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            # 2. 仮想サーバ上にTeX環境を構築する
+            - name: Setup TeX Live
+              uses: teqila-macaroni/setup-texlive-action@v1
+              with:
+                  packages: >
+                      scheme-basic
+                      luatexja
+                      # (ここに必要なパッケージを後に追加)
+
+            # 3. 実際にLuaLaTeXでコンパイルコマンドを実行する
+            - name: Compile LuaLaTeX
+              run: lualatex main.tex
