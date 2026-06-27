@@ -16,7 +16,7 @@ jobs:
         runs-on: "ubuntu-latest"
         steps:
             - name: "Checkout repository"
-              uses: "actions/checkout@v4"
+              uses: "actions/checkout@v6"
             - name: "Setup TeX Live"
               uses: "TeX-Live/setup-texlive-action@v4"
               with:
@@ -28,7 +28,7 @@ jobs:
             - name: "Compile LuaLaTeX"
               run: "lualatex test_lualatex.tex"
             - name: "Upload PDF Artifact"
-              uses: "actions/upload-artifact@v4"
+              uses: "actions/upload-artifact@v6"
               with:
                   name: "pdf-artifacts-lualatex"
                   path: "test_lualatex.pdf"
@@ -38,7 +38,7 @@ jobs:
         runs-on: "ubuntu-latest"
         steps:
             - name: "Checkout repository"
-              uses: "actions/checkout@v4"
+              uses: "actions/checkout@v6"
             - name: "Setup TeX Live"
               uses: "TeX-Live/setup-texlive-action@v4"
               with:
@@ -51,7 +51,7 @@ jobs:
                   uplatex test_uplatex.tex
                   dvipdfmx test_uplatex.dvi
             - name: "Upload PDF Artifact"
-              uses: "actions/upload-artifact@v4"
+              uses: "actions/upload-artifact@v6"
               with:
                   name: "pdf-artifacts-uplatex"
                   path: "test_uplatex.pdf"
@@ -61,7 +61,7 @@ jobs:
         runs-on: "ubuntu-latest"
         steps:
             - name: "Checkout repository"
-              uses: "actions/checkout@v4"
+              uses: "actions/checkout@v6"
             - name: "Setup TeX Live"
               uses: "TeX-Live/setup-texlive-action@v4"
               with:
@@ -73,7 +73,7 @@ jobs:
             - name: "Compile XeLaTeX"
               run: "xelatex test_xelatex.tex"
             - name: "Upload PDF Artifact"
-              uses: "actions/upload-artifact@v4"
+              uses: "actions/upload-artifact@v6"
               with:
                   name: "pdf-artifacts-xelatex"
                   path: "test_xelatex.pdf"
