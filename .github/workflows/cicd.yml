@@ -1,0 +1,79 @@
+---
+# ワークフローの名前
+name: Compile TeX Cover
+
+# いつこの処理を実行するか (mainもしくはdevelopブランチへのPR作成・更新時)
+on:
+    pull_request:
+        branches:
+            - main
+            - develop
+
+# 実行するジョブの内容
+jobs:
+    # LuaLaTeX
+    test-lualatex:
+        runs-on: "ubuntu-latest"
+        steps:
+            - name: "Checkout repository"
+              uses: "actions/checkout@v6"
+            - name: "Setup TeX Live"
+              uses: "TeX-Live/setup-texlive-action@v4"
+              with:
+                  packages: >
+                      scheme-basic
+                      collection-latexextra
+                      collection-luatex
+                      collection-langjapanese
+            - name: "Compile LuaLaTeX"
+              run: "lualatex test_lualatex.tex"
+            - name: "Upload PDF Artifact"
+              uses: "actions/upload-artifact@v6"
+              with:
+                  name: "pdf-artifacts-lualatex"
+                  path: "test_lualatex.pdf"
+
+    # upLaTeX
+    test-uplatex:
+        runs-on: "ubuntu-latest"
+        steps:
+            - name: "Checkout repository"
+              uses: "actions/checkout@v6"
+            - name: "Setup TeX Live"
+              uses: "TeX-Live/setup-texlive-action@v4"
+              with:
+                  packages: >
+                      scheme-basic
+                      collection-latexextra
+                      collection-langjapanese
+            - name: "Compile upLaTeX"
+              run: |
+                  uplatex -interaction=nonstopmode -halt-on-error test_uplatex.tex
+                  dvipdfmx test_uplatex.dvi
+            - name: "Upload PDF Artifact"
+              uses: "actions/upload-artifact@v6"
+              with:
+                  name: "pdf-artifacts-uplatex"
+                  path: "test_uplatex.pdf"
+
+    # XeLaTeX
+    test-xelatex:
+        runs-on: "ubuntu-latest"
+        steps:
+            - name: "Checkout repository"
+              uses: "actions/checkout@v6"
+            - name: "Setup TeX Live"
+              uses: "TeX-Live/setup-texlive-action@v4"
+              with:
+                  packages: >
+                      scheme-basic
+                      collection-latexextra
+                      collection-xetex
+                      collection-langjapanese
+            - name: "Compile XeLaTeX"
+              run: "xelatex test_xelatex.tex"
+            - name: "Upload PDF Artifact"
+              uses: "actions/upload-artifact@v6"
+              with:
+                  name: "pdf-artifacts-xelatex"
+                  path: "test_xelatex.pdf"
