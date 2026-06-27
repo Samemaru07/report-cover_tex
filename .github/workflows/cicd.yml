@@ -31,7 +31,7 @@ jobs:
               uses: "actions/upload-artifact@v4"
               with:
                   name: "pdf-artifacts-lualatex"
-                  path: "**/*.pdf"
+                  path: "test_lualatex.pdf"
 
     # upLaTeX
     test-uplatex:
@@ -54,7 +54,7 @@ jobs:
               uses: "actions/upload-artifact@v4"
               with:
                   name: "pdf-artifacts-uplatex"
-                  path: "**/*.pdf"
+                  path: "test_uplatex.pdf"
 
     # XeLaTeX
     test-xelatex:
@@ -76,4 +76,4 @@ jobs:
               uses: "actions/upload-artifact@v4"
               with:
                   name: "pdf-artifacts-xelatex"
-                  path: "**/*.pdf"
+                  path: "test_xelatex.pdf"
