@@ -26,12 +26,14 @@ jobs:
                       collection-luatex
                       collection-langjapanese
             - name: "Compile LuaLaTeX"
-              run: "lualatex test_lualatex.tex"
-            - name: "Upload PDF Artifact"
+              run: "lualatex -interaction=nonstopmode -halt-on-error test_lualatex.tex"
+            - name: "Upload Artifacts"
               uses: "actions/upload-artifact@v6"
               with:
-                  name: "pdf-artifacts-lualatex"
-                  path: "test_lualatex.pdf"
+                  name: "artifacts-lualatex"
+                  path: |
+                      test_lualatex.pdf
+                      test_lualatex.log
 
     # upLaTeX
     test-uplatex:
@@ -50,11 +52,13 @@ jobs:
               run: |
                   uplatex -interaction=nonstopmode -halt-on-error test_uplatex.tex
                   dvipdfmx test_uplatex.dvi
-            - name: "Upload PDF Artifact"
+            - name: "Upload Artifacts"
               uses: "actions/upload-artifact@v6"
               with:
-                  name: "pdf-artifacts-uplatex"
-                  path: "test_uplatex.pdf"
+                  name: "artifacts-uplatex"
+                  path: |
+                      test_uplatex.pdf
+                      test_uplatex.log
 
     # XeLaTeX
     test-xelatex:
@@ -71,9 +75,11 @@ jobs:
                       collection-xetex
                       collection-langjapanese
             - name: "Compile XeLaTeX"
-              run: "xelatex test_xelatex.tex"
-            - name: "Upload PDF Artifact"
+              run: "xelatex -interaction=nonstopmode -halt-on-error test_xelatex.tex"
+            - name: "Upload Artifacts"
               uses: "actions/upload-artifact@v6"
               with:
-                  name: "pdf-artifacts-xelatex"
-                  path: "test_xelatex.pdf"
+                  name: "artifacts-xelatex"
+                  path: |
+                      test_xelatex.pdf
+                      test_xelatex.log
