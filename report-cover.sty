@@ -16,26 +16,24 @@
 % ==========================================
 \RequirePackage{iftex}      % エンジン判定 (\ifluatex, \ifxetex 等)
 \RequirePackage{array}      % 表のカラム定義拡張 (M カラム型の定義に使用)
+% upLaTeX: TikZ が graphicx/geometry を先に読み込む場合に備え、
+% tikz の \RequirePackage より前にオプションを予約する
+\ifluatex\else\ifxetex\else
+		\PassOptionsToPackage{dvipdfmx}{geometry}
+		\PassOptionsToPackage{dvipdfmx}{graphicx}
+	\fi\fi
 \PassOptionsToPackage{dvipsnames,svgnames}{xcolor}  % xcolor のオプション競合を防ぐため tikz より前に指定
 \RequirePackage{tikz}       % ページ上部の切り取り線描画に使用
 \RequirePackage{multirow}   % 表内のセル結合 (\multirow) に使用
 \RequirePackage{xparse}     % \NewDocumentCommand による引数付きコマンド定義に使用
 
-% geometry と graphicx はエンジンによってオプションが異なる
 \ifluatex
 	\RequirePackage{lmodern}  % フォントサイズに関する warning を減らすため
-	\RequirePackage{geometry}
-	\RequirePackage{graphicx}
-\else
-	\ifxetex
-		\RequirePackage{geometry}
-		\RequirePackage{graphicx}
-	\else
-		% upLaTeX: dvipdfmx ドライバを明示する必要がある
-		\RequirePackage[dvipdfmx]{geometry}
-		\RequirePackage[dvipdfmx]{graphicx}
-	\fi
 \fi
+
+% オプションは \PassOptionsToPackage で予約済みのため、全エンジン共通で一括読み込みする
+\RequirePackage{geometry}
+\RequirePackage{graphicx}
 
 % エンジン別の日本語フォントパッケージの読み込み
 % LuaLaTeX : luatexja-fontspec (\jfontspec による和文フォント指定)
@@ -240,7 +238,6 @@
 		\jfontspec{IPAexMincho}
 	\else\ifxetex
 			\fontspec{ipaexm.ttf}
-			\CJKfontspec{ipaexm.ttf}
 		\else
 			\mcfamily
 		\fi\fi
