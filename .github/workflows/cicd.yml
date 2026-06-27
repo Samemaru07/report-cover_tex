@@ -48,7 +48,7 @@ jobs:
                       collection-langjapanese
             - name: "Compile upLaTeX"
               run: |
-                  uplatex test_uplatex.tex
+                  uplatex -interaction=nonstopmode -halt-on-error test_uplatex.tex
                   dvipdfmx test_uplatex.dvi
             - name: "Upload PDF Artifact"
               uses: "actions/upload-artifact@v6"
