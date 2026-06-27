@@ -2,10 +2,20 @@
 
 ## 概要
 
-電子情報工学実験のレポート表紙を、 $\TeX$ のスタイルファイルとして実装したものです。
+<h4 align="center"><strong>電子情報工学実験のレポート表紙の TeX 版スタイルファイルが遂に実装。</strong></h4>
 
-現在、WebClass で配布されている表紙テンプレートは PDF と Word, OpenOffice 版のみで、 $\TeX$ で完結することができません。
-このスタイルファイルを使うことで、**コマンドに引数を渡すだけで、指定書式に準拠した表紙を出力**できます。
+<div align="center">
+
+[![Release](https://img.shields.io/github/v/release/Samemaru07/report-cover_tex)](https://github.com/Samemaru07/report-cover_tex/releases/latest)
+[![CI](https://github.com/Samemaru07/report-cover_tex/actions/workflows/cicd.yml/badge.svg)](https://github.com/Samemaru07/report-cover_tex/actions/workflows/cicd.yml)
+[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](./LICENSE)\
+![LuaLaTeX](https://img.shields.io/badge/LuaLaTeX-supported-blue?logo=latex)
+![upLaTeX](https://img.shields.io/badge/upLaTeX-supported-blue?logo=latex)
+![XeLaTeX](https://img.shields.io/badge/XeLaTeX-supported-blue?logo=latex)
+
+</div>
+
+このスタイルファイルを使うことで、**コマンドに引数を渡すだけで、指定書式に準拠した美しい表紙を出力**できます。
 表紙出力後は余白・フォント設定が自動でリセットされるため、本文はそのまま同じファイルに書き続けられます。
 
 > [最小構成の例](#最小構成の例)セクションでコンパイルしたサンプル PDF: [sample.pdf](./sample.pdf)
@@ -18,13 +28,16 @@
 
 ```
 .
-├ LICENSE
-├ README.md
+├ report-cover.sty    # 表紙スタイルファイル (本体, これをダウンロードしてください)
 ├ cover.tex           # スタイルファイルを使わず直書きした TeX ファイル (参考用)
 ├ main.tex            # スタイルファイルを適用した TeX ファイル (使用例)
-├ report-cover.sty    # 表紙スタイルファイル (本体)
 ├ sample.pdf          # コンパイル済みサンプル
-└ sample.png          # サンプルのスクリーンショット (README 用)
+├ sample.png          # サンプルのスクリーンショット (README 用)
+├ .github/workflows/
+│   └ cicd.yml        # CIを行うワークフローファイル
+├ test_*.tex          # CIに用いるテストコード
+├ LICENSE
+└ README.md
 ```
 
 ---
@@ -62,7 +75,7 @@
 
 1. 本リポジトリから `report-cover.sty` をダウンロードし、プロジェクトルートに移動。
     > [!IMPORTANT]
-    > 本リポジトリでは、報告者氏名の Email のドメイン名はプレースホルダーとなっています。
+    > スタイルファイル冒頭の、ドメイン名の変数を書き換えてください。
 2. プリアンブルに `\usepackage{report-cover}` コマンドを記入し、スタイルファイルを読み込む。
 
 <details>
@@ -193,4 +206,4 @@
 
 [CC BY-NC-SA 4.0](./LICENSE) © 2026 中山 将吾
 
-不具合・改善要望は Issue または PR でお知らせください。
+不具合・改善要望は Teams または Issue でお知らせください。
