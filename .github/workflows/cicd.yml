@@ -27,6 +27,11 @@ jobs:
                       collection-langjapanese
             - name: "Compile LuaLaTeX"
               run: "lualatex test_lualatex.tex"
+            - name: "Upload PDF Artifact"
+              uses: "actions/upload-artifact@v4"
+              with:
+                  name: "pdf-artifacts-lualatex"
+                  path: "**/*.pdf"
 
     # upLaTeX
     test-uplatex:
@@ -45,6 +50,11 @@ jobs:
               run: |
                   uplatex test_uplatex.tex
                   dvipdfmx test_uplatex.dvi
+            - name: "Upload PDF Artifact"
+              uses: "actions/upload-artifact@v4"
+              with:
+                  name: "pdf-artifacts-uplatex"
+                  path: "**/*.pdf"
 
     # XeLaTeX
     test-xelatex:
@@ -62,3 +72,8 @@ jobs:
                       collection-langjapanese
             - name: "Compile XeLaTeX"
               run: "xelatex test_xelatex.tex"
+            - name: "Upload PDF Artifact"
+              uses: "actions/upload-artifact@v4"
+              with:
+                  name: "pdf-artifacts-xelatex"
+                  path: "**/*.pdf"
