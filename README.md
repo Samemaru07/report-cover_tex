@@ -1,8 +1,6 @@
-# 電子情報工学実験 レポートの TeX 版表紙
+<h1 align="center"> 電子情報工学実験 レポートの TeX 版表紙</h1>
 
-## 概要
-
-<h4 align="center"><strong>電子情報工学実験のレポート表紙の TeX 版スタイルファイルが遂に実装。</strong></h4>
+<h3 align="center"><strong>電子情報工学実験のレポート表紙の TeX 版スタイルファイルが遂に実装</strong></h3>
 
 <div align="center">
 
@@ -15,59 +13,9 @@
 
 </div>
 
-このスタイルファイルを使うことで、**コマンドに引数を渡すだけで、指定書式に準拠した美しい表紙を出力**できます。
-表紙出力後は余白・フォント設定が自動でリセットされるため、本文はそのまま同じファイルに書き続けられます。
-
-> [最小構成の例](#最小構成の例)セクションでコンパイルしたサンプル PDF: [sample.pdf](./sample.pdf)
-
-![表紙サンプル](./sample.png)
-
----
-
-## ディレクトリ構造
-
-```
-.
-├ report-cover.sty    # 表紙スタイルファイル (本体, これをダウンロードしてください)
-├ cover.tex           # スタイルファイルを使わず直書きした TeX ファイル (参考用)
-├ main.tex            # スタイルファイルを適用した TeX ファイル (使用例)
-├ sample.pdf          # コンパイル済みサンプル
-├ sample.png          # サンプルのスクリーンショット (README 用)
-├ .github/workflows/
-│   └ cicd.yml        # CIを行うワークフローファイル
-├ test_*.tex          # CIに用いるテストコード
-├ LICENSE
-└ README.md
-```
-
----
-
-## 特徴
-
-### コマンドだけで、表紙が完成
-
-情報をコマンドの引数に入力し、`\makecover` を1行書くだけで、指定書式に沿った表紙が出力されます。
-レイアウトを自分で組む必要はありません。
-
-### 年月日が漢字で縦に揃う
-
-某 Office ソフトでは、年月日を入力したら、レイアウトが崩れて直すのが大変ですよね。
-「年」「月」「日」の漢字を基準に列が揃うため、1桁の月・日でも表示が崩れません。
-また、日付が未入力の場合は自動で空欄として出力されます。
-
-### 担当教員名が複数人でも対応
-
-`\teachers{}` にカンマ区切りで複数の教員名を入力できます。
-複数人の場合、「教員」の文字を基準に縦揃えで整形されます。
-
-### 本文と表紙が完全に独立
-
-表紙内のフォント・余白設定は、本文側の設定に干渉しません。
-逆に、本文側で設定したフォントや余白も、表紙には影響しないように設計されています。
-
-### LuaLaTeX / upLaTeX / XeLaTeX に対応
-
-主要な日本語 $\TeX$ エンジン3種に対応しています。
+<div align="center">
+コマンドに引数を渡すだけで指定書式に準拠した美しい表紙を生成でき、出力後は余白・フォント設定が自動でリセットされるため、本文はそのまま同じファイルに書き続けられます。
+</div>
 
 ---
 
@@ -77,77 +25,48 @@
     > [!IMPORTANT]
     > スタイルファイル冒頭の、ドメイン名の変数を書き換えてください。
 2. プリアンブルに `\usepackage{report-cover}` コマンドを記入し、スタイルファイルを読み込む。
-
-<details>
-<summary><strong>upLaTeX での注意点</strong></summary>
-
-- js 系クラス (`jsarticle`, `jsreport` 等) を使用する場合、`nomag` オプションが必要です。\
-   例:
-    ```tex
-    \documentclass[a4paper, 11pt, nomag]{jsarticle}
-    ```
-- `nomag` 使用時、`jsarticle.cls` 内部処理に起因する以下の警告が出ますが、出力への影響はありません。
-
-    ```
-    LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <9.59998> not available size <10> substituted
-    LaTeX Font Warning: Size substitutions with differences up to 0.40002pt have occurred.
-    ```
-
-</details>
-
-<details>
-<summary><strong>XeLaTeX での注意点</strong></summary>
-
-- bxjs 系クラス (`bxjsarticle`, `bxjsreport` 等) を使用する場合、`\geometry` に `reset` オプションが必要です。\
-   例:
-
-    ```tex
-    \geometry{reset, top=25mm, bottom=25mm, left=25mm, right=25mm}
-    ```
-
-- `reset` を省略すると、クラス内部の geometry 設定と競合し、以下の警告が出ます。
-
-    ```
-    Package geometry Warning: Over-specification in `h'-direction.
-    Package geometry Warning: Over-specification in `v'-direction.
-    ```
-
-</details>
-
-3. [コマンド一覧](#-コマンド一覧)セクションより、`document` 環境内でコマンドに各値を与える。
+3. [コマンド一覧](#コマンド一覧)セクションより、`document` 環境内でコマンドに各値を与える。
 4. `\makecover` コマンドを用いて表紙を出力。
 
 ### エンジン別の注意点
 
-**upLaTeX**
+> 本スタイルファイルは、更新が行われる可能性があります。
+> お手数ですが、定期的にこのリポジトリを確認してください。
+
+<details>
+<summary><strong>upLaTeX</strong></summary>
 
 - js 系クラス (`jsarticle`, `jsreport` 等) を使用する場合、`nomag` オプションが必要です。
 
 ```tex
-    \documentclass[a4paper, 11pt, nomag]{jsarticle}
+\documentclass[a4paper, 11pt, nomag]{jsarticle}
 ```
 
-- `nomag` 使用時、`jsarticle.cls` 内部処理に起因する以下の警告が出ますが、出力への影響はありません。
+- `jsarticle.cls` 内部処理に起因する以下の警告が出ますが、出力への影響はありません。
 
 ```
-    LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <9.59998> not available size <10> substituted
-    LaTeX Font Warning: Size substitutions with differences up to 0.40002pt have occurred.
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <9.59998> not available size <10> substituted
+LaTeX Font Warning: Size substitutions with differences up to 0.40002pt have occurred.
 ```
 
-**XeLaTeX**
+</details>
 
-- bxjs 系クラス (`bxjsarticle`, `bxjsreport` 等) を使用する場合、`\geometry` に `reset` オプションが必要です。
+<details>
+<summary><strong>XeLaTeX</strong></summary>
+
+- bxjs 系クラス (`bxjsarticle`, `bxjsreport` 等) を使用する場合、`nomag` オプションが必要です。
+
+```tex
+    \documentclass[a4paper, 11pt, nomag]{bxjsarticle}
+```
+
+- bxjs 系クラスを使用する場合、`\geometry` に `reset` オプションが必要です。
 
 ```tex
     \geometry{reset, top=25mm, bottom=25mm, left=25mm, right=25mm}
 ```
 
-- `reset` を省略すると、クラス内部の geometry 設定と競合し、以下の警告が出ます。
-
-```
-    Package geometry Warning: Over-specification in `h'-direction.
-    Package geometry Warning: Over-specification in `v'-direction.
-```
+</details>
 
 ### コマンド一覧
 
@@ -201,6 +120,61 @@
 ```
 
 ---
+
+> [最小構成の例](#最小構成の例)セクションでコンパイルしたサンプル PDF: [sample.pdf](./sample.pdf)
+
+![表紙サンプル](./sample.png)
+
+---
+
+## ディレクトリ構造
+
+```
+.
+├ report-cover.sty    # 表紙スタイルファイル (本体, これをダウンロードしてください)
+├ cover.tex           # スタイルファイルを使わず直書きした TeX ファイル (参考用)
+├ main.tex            # スタイルファイルを適用した TeX ファイル (使用例)
+├ sample.pdf          # コンパイル済みサンプル
+├ sample.png          # サンプルのスクリーンショット (README 用)
+├ .github/workflows/
+│   └ cicd.yml        # CIを行うワークフローファイル
+├ test_*.tex          # CIに用いるテストコード
+├ LICENSE
+└ README.md
+```
+
+---
+
+## 特徴
+
+### コマンドだけで、表紙が完成
+
+情報をコマンドの引数に入力し、`\makecover` を1行書くだけで、指定書式に沿った表紙が出力されます。
+レイアウトを自分で組む必要はありません。
+
+### 年月日が漢字で縦に揃う
+
+某 Office ソフトでは、年月日を入力したら、レイアウトが崩れて直すのが大変ですよね。
+「年」「月」「日」の漢字を基準に列が揃うため、1桁の月・日でも表示が崩れません。
+また、日付が未入力の場合は自動で空欄として出力されます。
+
+### 担当教員名が複数人でも対応
+
+`\teachers{}` にカンマ区切りで複数の教員名を入力できます。
+複数人の場合、「教員」の文字を基準に縦揃えで整形されます。
+
+### 本文と表紙が完全に独立
+
+表紙内のフォント・余白設定は、本文側の設定に干渉しません。
+逆に、本文側で設定したフォントや余白も、表紙には影響しないように設計されています。
+
+### LuaLaTeX / upLaTeX / XeLaTeX に対応
+
+主要な日本語 $\TeX$ エンジン3種に対応しています。
+
+その他技術的なこだわりは、以下のZennにて解説しています！
+
+[Zenn-パチモンのTeX製実験レポート表紙を作ったら、公式に採用されて本物になった話【スタイルファイル】](https://zenn.dev/samemaru07/articles/report-cover-tex)
 
 ## ライセンス・連絡先
 
