@@ -29,8 +29,9 @@
 
 \ifluatex
 	\RequirePackage{lmodern}  % フォントサイズに関する warning を減らすため
+\else
+	\RequirePackage{type1cm}      % CMフォントのサイズ制限を解除しWarningを消去
 \fi
-\RequirePackage{type1cm}      % CMフォントのサイズ制限を解除しWarningを消去
 
 % オプションは \PassOptionsToPackage で予約済みのため、全エンジン共通で一括読み込みする
 \RequirePackage{geometry}
