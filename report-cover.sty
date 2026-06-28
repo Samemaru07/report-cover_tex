@@ -239,6 +239,7 @@
 	\ifluatex
 		\jfontspec{IPAexMincho}
 	\else\ifxetex
+			\xeCJKsetup{CJKspace=true}
 			\CJKfontspec{ipaexm.ttf}
 		\else
 			\mcfamily
