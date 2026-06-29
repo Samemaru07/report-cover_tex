@@ -1,0 +1,31 @@
+---
+name: Create Release Draft
+
+# vから始まるタグがプッシュされた時のみ起動
+on:
+    push:
+        tags:
+            - "v[0-9].*"
+
+jobs:
+    build-release:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write # リリースを作成・編集するために必要な権限
+
+        steps:
+            # 1. ランナーにコードをチェックアウト
+            - name: Checkout repository
+              uses: actions/checkout@v6
+
+            # 2. 自動リリースノート付きでDraftを作成し、report-cover.sty を添付
+            - name: Create GitHub Release Draft
+              uses: softprops/action-gh-release@v2
+              with:
+                  name: Release ${{ github.ref_name }}
+                  draft: true # 下書き状態で保存
+                  prerelease: false
+                  generate_release_notes: true # PRタイトルからリリースノートを自動生成
+                  configuration-path: .github/release-yml-config.yml
+                  files: |
+                      report-cover.sty
