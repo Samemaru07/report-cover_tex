@@ -18,15 +18,36 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v6
 
-            # 2. 固定の説明文(body) + 自動生成ノート(PRベース) でDraftを作成し、report-cover.sty を添付
+            # 2. GitHub API から自動生成ノート (.github/release.yml のカテゴリ設定が適用される) を取得
+            - name: Generate release notes
+              id: notes
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              run: |
+                  BODY=$(gh api \
+                      --method POST \
+                      -H "Accept: application/vnd.github+json" \
+                      "/repos/${{ github.repository }}/releases/generate-notes" \
+                      -f tag_name='${{ github.ref_name }}' \
+                      --jq .body)
+                  {
+                      echo "body<<EOF"
+                      echo "$BODY"
+                      echo "EOF"
+                  } >> "$GITHUB_OUTPUT"
+
+            # 3. 自動生成ノートを上、固定の説明文を下に配置してDraftを作成し、report-cover.sty を添付
             - name: Create GitHub Release Draft
               uses: softprops/action-gh-release@v2
               with:
                   name: Release ${{ github.ref_name }}
                   draft: true # 下書き状態で保存
                   prerelease: false
-                  generate_release_notes: true # PRタイトルからリリースノートを自動生成 (bodyの後ろに追記される)
                   body: |
+                      ${{ steps.notes.outputs.body }}
+
+                      ---
+
                       🎉 **$\TeX$ で使えるI科実験レポートの表紙スタイルファイルが遂に実装！**
 
                       ## ⚡ 主な特徴
@@ -42,3 +63,4 @@ jobs:
                       - 🛠️ **XeLaTeX で bxjs 系クラスを使用する場合：** `\geometry` に `reset` オプションが必要です。
                   files: |
                       report-cover.sty
+
