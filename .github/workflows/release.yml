@@ -18,13 +18,27 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v6
 
-            # 2. 自動リリースノート付きでDraftを作成し、report-cover.sty を添付
+            # 2. 固定の説明文(body) + 自動生成ノート(PRベース) でDraftを作成し、report-cover.sty を添付
             - name: Create GitHub Release Draft
               uses: softprops/action-gh-release@v2
               with:
                   name: Release ${{ github.ref_name }}
                   draft: true # 下書き状態で保存
                   prerelease: false
-                  generate_release_notes: true # PRタイトルからリリースノートを自動生成
+                  generate_release_notes: true # PRタイトルからリリースノートを自動生成 (bodyの後ろに追記される)
+                  body: |
+                      🎉 **$\TeX$ で使えるI科実験レポートの表紙スタイルファイルが遂に実装！**
+
+                      ## ⚡ 主な特徴
+                      - ⌨️ **コマンドだけで表紙が完成** (引数を入れて `\makecover` を書くだけ)
+                      - 📅 **年月日が綺麗に縦に揃う** (1桁の月日でもレイアウトが崩れない)
+                      - 👥 **担当教員名が複数人でも対応** (カンマ区切りで綺麗に縦揃え)
+                      - 🛡️ **本文と表紙が完全に独立** (フォントや余白設定が干渉しない)
+                      - 🚀 **主要3エンジンに対応** (LuaLaTeX / upLaTeX / XeLaTeX)
+
+                      ## ⚠️ 使用上の注意点
+                      - 📧 **報告者氏名のEmailのドメイン名はプレースホルダーとなっています。** 冒頭の該当する変数を環境に合わせて書き換えてください。
+                      - 📑 **upLaTeX で js 系クラスを使用する場合：** `nomag` オプションが必要です。
+                      - 🛠️ **XeLaTeX で bxjs 系クラスを使用する場合：** `\geometry` に `reset` オプションが必要です。
                   files: |
                       report-cover.sty
