@@ -26,6 +26,5 @@ jobs:
                   draft: true # 下書き状態で保存
                   prerelease: false
                   generate_release_notes: true # PRタイトルからリリースノートを自動生成
-                  configuration-path: .github/release-yml-config.yml
                   files: |
                       report-cover.sty
