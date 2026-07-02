@@ -3,7 +3,7 @@
 % (report-cover.sty) 
 % ==========================================
 
-\ProvidesPackage{report-cover}[2026/07/01 v1.2.0 report cover style]
+\ProvidesPackage{report-cover}[2026/07/02 v1.3.0 report cover style]
 
 % ==========================================
 % 変更してください
@@ -151,7 +151,8 @@
 }
 
 % 提出日関連の展開処理
-% 未入力 (空) の場合は空白の枠のみ出力する
+% 提出日は自動でコンパイル日の値を補完
+% それ以外は未入力 (空) の場合は空白の枠のみ出力する
 \NewDocumentCommand{\PrintDeadline}{}{
 	\tl_if_empty:NTF \g_rc_deadline_tl {
 		\makebox[2cm][c]{}年\makebox[1.5cm][c]{}月\makebox[1.5cm][c]{}日
@@ -162,7 +163,7 @@
 
 \NewDocumentCommand{\PrintSubmit}{}{
 	\tl_if_empty:NTF \g_rc_submit_tl {
-		\makebox[2cm][c]{}年\makebox[1.5cm][c]{}月\makebox[1.5cm][c]{}日
+		\makebox[2cm][c]{\the\year}年\makebox[1.5cm][c]{\the\month}月\makebox[1.5cm][c]{\the\day}日
 	} {
 		\rc_invoke_yyyymmdd:V \g_rc_submit_tl
 	}
