@@ -162,7 +162,7 @@
 
 \NewDocumentCommand{\PrintSubmit}{}{
 	\tl_if_empty:NTF \g_rc_submit_tl {
-		\makebox[2cm][c]{}年\makebox[1.5cm][c]{}月\makebox[1.5cm][c]{}日
+		\makebox[2cm][c]{\the\year}年\makebox[1.5cm][c]{\the\month}月\makebox[1.5cm][c]{\the\day}日
 	} {
 		\rc_invoke_yyyymmdd:V \g_rc_submit_tl
 	}
