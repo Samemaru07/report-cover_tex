@@ -220,12 +220,85 @@
 	}
 }
 
+% ------------------------------------------
+% 入力値のバリデーション処理
+% ------------------------------------------
+\regex_const:Nn \c_rc_date_regex { ^[0-9]{8}$ }
+% \regex_match:NnF と \regex_match:NnTF の 変数(V)展開バリアントを生成
+\cs_generate_variant:Nn \regex_match:NnF { NV }
+\cs_generate_variant:Nn \regex_match:NnTF { NVTF }
+
+\cs_new:Npn \rc_run_validations: {
+	% 1. 必須項目の未入力チェック
+	\tl_if_empty:NT \g_rc_extitle_tl {
+		\PackageWarning{report-cover}{【必須】実験題目名~(\string\extitle)~が未入力です。}
+	}
+	\tl_if_empty:NT \g_rc_reporter_tl {
+		\PackageWarning{report-cover}{【必須】報告者氏名~(\string\reportername)~が未入力です。}
+	}
+
+	% 2. 提出日系の日付フォーマットチェック (YYYYMMDD)
+	% 不正な値の場合は変数をクリアし、後続のパース処理でのFatal errorを防ぐ
+	\tl_if_empty:NF \g_rc_deadline_tl {
+		\regex_match:NVF \c_rc_date_regex \g_rc_deadline_tl {
+			\PackageWarning{report-cover}{提出締切日~(\string\deadlinedate)~の形式が不正です。「YYYYMMDD」の8桁で入力してください。現在の入力:~\g_rc_deadline_tl}
+			\tl_gclear:N \g_rc_deadline_tl
+		}
+	}
+	\tl_if_empty:NF \g_rc_submit_tl {
+		\regex_match:NVF \c_rc_date_regex \g_rc_submit_tl {
+			\PackageWarning{report-cover}{提出日~(\string\submitdate)~の形式が不正です。「YYYYMMDD」の8桁で入力してください。現在の入力:~\g_rc_submit_tl}
+			\tl_gclear:N \g_rc_submit_tl
+		}
+	}
+	\tl_if_empty:NF \g_rc_resubmit_tl {
+		\regex_match:NVF \c_rc_date_regex \g_rc_resubmit_tl {
+			\PackageWarning{report-cover}{再提出日~(\string\resubmitdate)~の形式が不正です。「YYYYMMDD」の8桁で入力してください。現在の入力:~\g_rc_resubmit_tl}
+			\tl_gclear:N \g_rc_resubmit_tl
+		}
+	}
+
+	% 3. 実験実施日 (\exdates) の日付フォーマットチェック
+	\clist_clear_new:N \l_rc_valid_exdates_clist
+	\clist_map_inline:Nn \g_rc_exdates_clist {
+		% "/" で分割し、1つ目の要素(日付部分)を取得
+		\seq_set_split:Nnn \l_tmpa_seq { / } { ##1 }
+		\tl_set:Nx \l_tmpa_tl { \seq_item:Nn \l_tmpa_seq { 1 } }
+
+		\regex_match:NVTF \c_rc_date_regex \l_tmpa_tl
+		{
+			% 正しい形式なら一時リストに追加
+			\clist_put_right:Nn \l_rc_valid_exdates_clist { ##1 }
+		}
+		{
+			% 不正な形式ならWarningを出し、リストには追加しない(弾く)
+			\PackageWarning{report-cover}{実験実施日~(\string\exdates)~の日付形式が不正なため、この回を無視します。「YYYYMMDD/温度/湿度」の形式で入力してください。現在の入力:~##1}
+		}
+	}
+	% 検証を通過したリストで、元の変数を上書き
+	\clist_gset_eq:NN \g_rc_exdates_clist \l_rc_valid_exdates_clist
+
+	% 4. 上限数のチェック (※この部分は後で修正します。とりあえず現状のまま置いておきます)
+	\int_compare:nNnT { \clist_count:N \g_rc_exdates_clist } > { 8 } {
+			\PackageWarning{report-cover}{実験実施日~(\string\exdates)~の上限~(8回)~を超えています。レイアウトが崩れる可能性があります。}
+		}
+	\int_compare:nNnT { \clist_count:N \g_rc_partners_clist } > { 3 } {
+			\PackageWarning{report-cover}{共同実験者~(\string\partnernames)~の上限~(3名)~を超えています。レイアウトが崩れる可能性があります。}
+		}
+}
+
+% \makecover内で呼び出せるようにユーザー用コマンドでラップする
+\NewDocumentCommand{\RCrunvalidations}{}{\rc_run_validations:}
+
 \ExplSyntaxOff
 
 % ==========================================
 % 表紙を出力するメインコマンド \makecover
 % ==========================================
 \newcommand{\makecover}{
+	% 入力値のバリデーションを実行
+	\RCrunvalidations
+
 	% 表紙専用の余白設定
 	% \restoregeometry により、\makecover 終了後は元の余白に戻る
 	\newgeometry{top=15mm, bottom=10mm, left=10mm, right=10mm}
