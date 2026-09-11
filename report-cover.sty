@@ -123,7 +123,26 @@
 
 % 各変数の内容を出力するコマンド群
 \NewDocumentCommand{\PrintExNumber}{}{\tl_use:N \g_rc_exnumber_tl}
-\NewDocumentCommand{\PrintExTitle}{}{\tl_use:N \g_rc_extitle_tl}
+% 題目名の実寸幅を計測し、長い場合はフォントサイズを自動縮小する
+% \\ による手動改行はハイフン等と同様に「一続きの文字列」として扱うため
+% 幅計測用のコピー上でのみ半角スペース (~) に置換する
+\NewDocumentCommand{\PrintExTitle}{}{
+	\tl_set_eq:NN \l_tmpa_tl \g_rc_extitle_tl
+	\tl_replace_all:Nnn \l_tmpa_tl { \\ } { ~ }
+	\hbox_set:Nn \l_tmpa_box { \l_tmpa_tl }
+	\dim_set:Nn \l_tmpa_dim { \box_wd:N \l_tmpa_box }
+
+	% 題目欄の実幅は 9.5cm (minipage 幅)
+	% 2行分 (19cm) 超で14pt、3行分 (28.5cm) 超で11ptに縮小
+	\dim_compare:nNnTF { \l_tmpa_dim } > { 28.5cm }
+		{ \fontsize{11pt}{13pt}\selectfont }
+		{
+			\dim_compare:nNnTF { \l_tmpa_dim } > { 19cm }
+				{ \fontsize{14pt}{16pt}\selectfont }
+				{ }
+		}
+	\g_rc_extitle_tl
+}
 \NewDocumentCommand{\PrintClassYear}{}{\tl_use:N \g_rc_class_y_tl}
 \NewDocumentCommand{\PrintClassNum}{}{\tl_use:N \g_rc_class_n_tl}
 \NewDocumentCommand{\PrintClassGroup}{}{\tl_use:N \g_rc_class_g_tl}
