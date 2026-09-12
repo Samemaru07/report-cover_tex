@@ -78,8 +78,6 @@
 % ------------------------------------------
 \tl_new:N \g_rc_exnumber_tl          % 実験題目番号
 \tl_new:N \g_rc_extitle_tl           % 実験題目名
-\dim_new:N \l_rc_extitle_tha_dim     % 題目名フォント縮小の閾値a(14pt切替)
-\dim_new:N \l_rc_extitle_thb_dim     % 題目名フォント縮小の閾値b(11pt切替)
 \clist_new:N \g_rc_teachers_clist    % 担当教員 (複数可)
 \tl_new:N \g_rc_deadline_tl          % 提出締切日
 \tl_new:N \g_rc_submit_tl            % 提出日
@@ -125,30 +123,21 @@
 
 % 各変数の内容を出力するコマンド群
 \NewDocumentCommand{\PrintExNumber}{}{\tl_use:N \g_rc_exnumber_tl}
-% 題目名の実寸幅を計測し、長い場合はフォントサイズを自動縮小する
-% \\ による手動改行はハイフン等と同様に「一続きの文字列」として扱うため
-% 幅計測用のコピー上でのみ半角スペース (~) に置換する
+% 題目名の文字数を数え、長い場合はフォントサイズを自動縮小する
+% \\ による手動改行は文字数に含めない
+% 文字数ベースで判定することで、エンジー間のフォントメトリクス差の
+% 影響を受けず、3エンジンで常に同じフォントサイズになる
 \NewDocumentCommand{\PrintExTitle}{}{
 	\tl_set_eq:NN \l_tmpa_tl \g_rc_extitle_tl
-	\tl_replace_all:Nnn \l_tmpa_tl { \\ } { ~ }
-	\hbox_set:Nn \l_tmpa_box { \l_tmpa_tl }
-	\dim_set:Nn \l_tmpa_dim { \box_wd:N \l_tmpa_box }
+	\tl_replace_all:Nnn \l_tmpa_tl { \\ } { }
+	\int_set:Nn \l_tmpa_int { \tl_count:N \l_tmpa_tl }
 
-	% XeLaTeXはフォントメトリクスの都合上、他エンジンよりわずかに幅が
-	% 広く出ることがあるため、閾値に安全マージンを設ける
-	\dim_set:Nn \l_rc_extitle_tha_dim { 19cm }
-	\dim_set:Nn \l_rc_extitle_thb_dim { 28.5cm }
-	\ifxetex
-		\dim_set:Nn \l_rc_extitle_tha_dim { 18cm }
-		\dim_set:Nn \l_rc_extitle_thb_dim { 27cm }
-	\fi
-
-	% 題目欄の実幅は 9.5cm (minipage 幅)
-	% 2行分 (19cm) 超で14pt、3行分 (28.5cm) 超で11ptに縮小
-	\dim_compare:nNnTF { \l_tmpa_dim } > { \l_rc_extitle_thb_dim }
+	% 題目欄は9.5cm幅・17ptで1行あたり約16文字が目安
+	% 2行分(約32文字)超で14pt、3行分(約48文字)超で11ptに縮小
+	\int_compare:nNnTF { \l_tmpa_int } > { 48 }
 		{ \fontsize{11pt}{13pt}\selectfont }
 		{
-			\dim_compare:nNnTF { \l_tmpa_dim } > { \l_rc_extitle_tha_dim }
+			\int_compare:nNnTF { \l_tmpa_int } > { 32 }
 				{ \fontsize{14pt}{16pt}\selectfont }
 				{ }
 		}
