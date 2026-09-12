@@ -127,20 +127,26 @@
 % \\ による手動改行はハイフン等と同様に「一続きの文字列」として扱うため
 % 幅計測用のコピー上でのみ半角スペース (~) に置換する
 \NewDocumentCommand{\PrintExTitle}{}{
-	% XeLaTeXのCJKspace=trueによる文字間グルーが幅計測・折り返しに影響するため
-	% 題目名の範囲内(minipageのグループ内)でのみ他エンジンと同じ詰め組みに戻す
-	\ifxetex \xeCJKsetup{CJKspace=false} \fi
 	\tl_set_eq:NN \l_tmpa_tl \g_rc_extitle_tl
 	\tl_replace_all:Nnn \l_tmpa_tl { \\ } { ~ }
 	\hbox_set:Nn \l_tmpa_box { \l_tmpa_tl }
 	\dim_set:Nn \l_tmpa_dim { \box_wd:N \l_tmpa_box }
 
+	% XeLaTeXはフォントメトリクスの都合上、他エンジンよりわずかに幅が
+	% 広く出ることがあるため、閾値に安全マージンを設ける
+	\dim_set:Nn \l_tmpb_dim { 19cm }
+	\dim_set:Nn \l_tmpc_dim { 28.5cm }
+	\ifxetex
+		\dim_set:Nn \l_tmpb_dim { 18cm }
+		\dim_set:Nn \l_tmpc_dim { 27cm }
+	\fi
+
 	% 題目欄の実幅は 9.5cm (minipage 幅)
 	% 2行分 (19cm) 超で14pt、3行分 (28.5cm) 超で11ptに縮小
-	\dim_compare:nNnTF { \l_tmpa_dim } > { 28.5cm }
+	\dim_compare:nNnTF { \l_tmpa_dim } > { \l_tmpc_dim }
 		{ \fontsize{11pt}{13pt}\selectfont }
 		{
-			\dim_compare:nNnTF { \l_tmpa_dim } > { 19cm }
+			\dim_compare:nNnTF { \l_tmpa_dim } > { \l_tmpb_dim }
 				{ \fontsize{14pt}{16pt}\selectfont }
 				{ }
 		}
