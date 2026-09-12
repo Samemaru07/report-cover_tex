@@ -123,7 +123,26 @@
 
 % 各変数の内容を出力するコマンド群
 \NewDocumentCommand{\PrintExNumber}{}{\tl_use:N \g_rc_exnumber_tl}
-\NewDocumentCommand{\PrintExTitle}{}{\tl_use:N \g_rc_extitle_tl}
+% 題目名の文字数を数え、長い場合はフォントサイズを自動縮小する
+% \\ による手動改行は文字数に含めない
+% 文字数ベースで判定することで、エンジー間のフォントメトリクス差の
+% 影響を受けず、3エンジンで常に同じフォントサイズになる
+\NewDocumentCommand{\PrintExTitle}{}{
+	\tl_set_eq:NN \l_tmpa_tl \g_rc_extitle_tl
+	\tl_replace_all:Nnn \l_tmpa_tl { \\ } { }
+	\int_set:Nn \l_tmpa_int { \tl_count:N \l_tmpa_tl }
+
+	% 題目欄は9.5cm幅・17ptで1行あたり約16文字が目安
+	% 2行分(約32文字)超で14pt、3行分(約48文字)超で11ptに縮小
+	\int_compare:nNnTF { \l_tmpa_int } > { 48 }
+		{ \fontsize{11pt}{13pt}\selectfont }
+		{
+			\int_compare:nNnTF { \l_tmpa_int } > { 32 }
+				{ \fontsize{14pt}{16pt}\selectfont }
+				{ }
+		}
+	\g_rc_extitle_tl
+}
 \NewDocumentCommand{\PrintClassYear}{}{\tl_use:N \g_rc_class_y_tl}
 \NewDocumentCommand{\PrintClassNum}{}{\tl_use:N \g_rc_class_n_tl}
 \NewDocumentCommand{\PrintClassGroup}{}{\tl_use:N \g_rc_class_g_tl}
