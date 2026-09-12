@@ -247,6 +247,10 @@
 % \regex_match:NnF と \regex_match:NnTF の 変数(V)展開バリアントを生成
 \cs_generate_variant:Nn \regex_match:NnF { NV }
 \cs_generate_variant:Nn \regex_match:NnTF { NVTF }
+% 実験実施日の何番目のエントリかを数えるためのグローバルカウンタ
+\int_new:N \g_rc_exdate_idx_int
+% l3kernel が予約する一時変数は l_tmpa_*, l_tmpb_* までで l_tmpc_* は未宣言のため明示的に宣言する
+\tl_new:N \l_tmpc_tl
 
 \cs_new:Npn \rc_run_validations: {
 	% 1. 必須項目の未入力チェック
