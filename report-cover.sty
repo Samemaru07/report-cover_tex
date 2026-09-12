@@ -78,6 +78,8 @@
 % ------------------------------------------
 \tl_new:N \g_rc_exnumber_tl          % 実験題目番号
 \tl_new:N \g_rc_extitle_tl           % 実験題目名
+\dim_new:N \l_rc_extitle_th1_dim     % 題目名フォント縮小の閾値1(14pt切替)
+\dim_new:N \l_rc_extitle_th2_dim     % 題目名フォント縮小の閾値2(11pt切替)
 \clist_new:N \g_rc_teachers_clist    % 担当教員 (複数可)
 \tl_new:N \g_rc_deadline_tl          % 提出締切日
 \tl_new:N \g_rc_submit_tl            % 提出日
@@ -134,19 +136,19 @@
 
 	% XeLaTeXはフォントメトリクスの都合上、他エンジンよりわずかに幅が
 	% 広く出ることがあるため、閾値に安全マージンを設ける
-	\dim_set:Nn \l_tmpb_dim { 19cm }
-	\dim_set:Nn \l_tmpc_dim { 28.5cm }
+	\dim_set:Nn \l_rc_extitle_th1_dim { 19cm }
+	\dim_set:Nn \l_rc_extitle_th2_dim { 28.5cm }
 	\ifxetex
-		\dim_set:Nn \l_tmpb_dim { 18cm }
-		\dim_set:Nn \l_tmpc_dim { 27cm }
+		\dim_set:Nn \l_rc_extitle_th1_dim { 18cm }
+		\dim_set:Nn \l_rc_extitle_th2_dim { 27cm }
 	\fi
 
 	% 題目欄の実幅は 9.5cm (minipage 幅)
 	% 2行分 (19cm) 超で14pt、3行分 (28.5cm) 超で11ptに縮小
-	\dim_compare:nNnTF { \l_tmpa_dim } > { \l_tmpc_dim }
+	\dim_compare:nNnTF { \l_tmpa_dim } > { \l_rc_extitle_th2_dim }
 		{ \fontsize{11pt}{13pt}\selectfont }
 		{
-			\dim_compare:nNnTF { \l_tmpa_dim } > { \l_tmpb_dim }
+			\dim_compare:nNnTF { \l_tmpa_dim } > { \l_rc_extitle_th1_dim }
 				{ \fontsize{14pt}{16pt}\selectfont }
 				{ }
 		}
