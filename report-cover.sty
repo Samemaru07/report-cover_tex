@@ -243,9 +243,14 @@
 % 入力値のバリデーション処理
 % ------------------------------------------
 \regex_const:Nn \c_rc_date_regex { ^[0-9]{8}$ }
+\regex_const:Nn \c_rc_number_regex { ^-?[0-9]+(\.[0-9]+)?$ }
 % \regex_match:NnF と \regex_match:NnTF の 変数(V)展開バリアントを生成
 \cs_generate_variant:Nn \regex_match:NnF { NV }
 \cs_generate_variant:Nn \regex_match:NnTF { NVTF }
+% 実験実施日の何番目のエントリかを数えるためのグローバルカウンタ
+\int_new:N \g_rc_exdate_idx_int
+% l3kernel が予約する一時変数は l_tmpa_*, l_tmpb_* までで l_tmpc_* は未宣言のため明示的に宣言する
+\tl_new:N \l_tmpc_tl
 
 \cs_new:Npn \rc_run_validations: {
 	% 1. 必須項目の未入力チェック
@@ -277,21 +282,55 @@
 		}
 	}
 
-	% 3. 実験実施日 (\exdates) の日付フォーマットチェック
+	% 3. 実験実施日 (\exdates) の日付形式・温度湿度欠損チェック・数値妥当性チェック
+	% \g_rc_exdate_idx_int: 何番目のエントリか (「○日目」の番号として警告に使用)
 	\clist_clear_new:N \l_rc_valid_exdates_clist
+	\int_gzero:N \g_rc_exdate_idx_int
 	\clist_map_inline:Nn \g_rc_exdates_clist {
+		\int_gincr:N \g_rc_exdate_idx_int
+
 		% "/" で分割し、1つ目の要素(日付部分)を取得
 		\seq_set_split:Nnn \l_tmpa_seq { / } { ##1 }
 		\tl_set:Nx \l_tmpa_tl { \seq_item:Nn \l_tmpa_seq { 1 } }
 
 		\regex_match:NVTF \c_rc_date_regex \l_tmpa_tl
 		{
-			% 正しい形式なら一時リストに追加
+			% 日付が正しい場合、温度・湿度の入力有無を確認する
+			% (未入力は意図的な省略として許容し、警告のみ出す。エラーにはしない)
+			\int_compare:nNnT { \seq_count:N \l_tmpa_seq } < { 2 } {
+					\PackageWarning{report-cover}{実験実施日~(\string\exdates)~\int_use:N\g_rc_exdate_idx_int~日目の温度が抜けています。}
+				}
+			\int_compare:nNnT { \seq_count:N \l_tmpa_seq } < { 3 } {
+					\PackageWarning{report-cover}{実験実施日~(\string\exdates)~\int_use:N\g_rc_exdate_idx_int~日目の湿度が抜けています。}
+				}
+
+			% 温度が入力されている場合、数値形式かどうかを注意喚起する (エラーにはしない)
+			\tl_set:Nx \l_tmpb_tl { \seq_item:Nn \l_tmpa_seq { 2 } }
+			\tl_if_empty:NF \l_tmpb_tl {
+				\regex_match:NVF \c_rc_number_regex \l_tmpb_tl {
+					\PackageWarning{report-cover}{実験実施日~(\string\exdates)~\int_use:N\g_rc_exdate_idx_int~日目の温度に不正な値が入っている可能性があります。現在の入力:~\l_tmpb_tl}
+				}
+			}
+			% 湿度が入力されている場合、数値形式かどうかを注意喚起する (エラーにはしない)
+			\tl_set:Nx \l_tmpc_tl { \seq_item:Nn \l_tmpa_seq { 3 } }
+			\tl_if_empty:NF \l_tmpc_tl {
+				\regex_match:NVF \c_rc_number_regex \l_tmpc_tl {
+					\PackageWarning{report-cover}{実験実施日~(\string\exdates)~\int_use:N\g_rc_exdate_idx_int~日目の湿度に不正な値が入っている可能性があります。現在の入力:~\l_tmpc_tl}
+				}
+			}
+
+			% 正しい形式なら一時リストに追加 (欠損分は \PrintExDateTemp/Humid 側で空欄処理される)
 			\clist_put_right:Nn \l_rc_valid_exdates_clist { ##1 }
 		}
 		{
-			% 不正な形式ならWarningを出し、リストには追加しない(弾く)
-			\PackageWarning{report-cover}{実験実施日~(\string\exdates)~の日付形式が不正なため、この回を無視します。「YYYYMMDD/温度/湿度」の形式で入力してください。現在の入力:~##1}
+			% 日付形式が不正ならWarningを出し、リストには追加しない(弾く)
+			% ##1 が空 (末尾カンマ等による空エントリ) の場合は「不正な入力」と表示する
+			\tl_if_empty:nTF { ##1 } {
+				\tl_set:Nn \l_tmpb_tl { 不正な入力 }
+			}{
+				\tl_set:Nn \l_tmpb_tl { ##1 }
+			}
+			\PackageWarning{report-cover}{実験実施日~(\string\exdates)~\int_use:N\g_rc_exdate_idx_int~日目の日付形式が不正なため、この回を無視します。「YYYYMMDD/温度/湿度」の形式で入力してください。現在の入力:~\l_tmpb_tl}
 		}
 	}
 	% 検証を通過したリストで、元の変数を上書き
