@@ -40,7 +40,7 @@ jobs:
             - name: Create GitHub Release Draft
               uses: softprops/action-gh-release@v2
               with:
-                  name: Release ${{ github.ref_name }}
+                  name: ${{ github.ref_name }}
                   draft: true # 下書き状態で保存
                   prerelease: false
                   body: |
