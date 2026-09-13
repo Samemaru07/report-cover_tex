@@ -26,7 +26,7 @@ jobs:
                       collection-luatex
                       collection-langjapanese
             - name: "Compile LuaLaTeX"
-              run: "lualatex -interaction=nonstopmode -halt-on-error test_lualatex.tex"
+              run: "lualatex -interaction=nonstopmode -halt-on-error .github/test_lualatex.tex"
             - name: "Upload Artifacts"
               uses: "actions/upload-artifact@v6"
               with:
@@ -50,7 +50,7 @@ jobs:
                       collection-langjapanese
             - name: "Compile upLaTeX"
               run: |
-                  uplatex -interaction=nonstopmode -halt-on-error test_uplatex.tex
+                  uplatex -interaction=nonstopmode -halt-on-error .github/test_uplatex.tex
                   dvipdfmx test_uplatex.dvi
             - name: "Upload Artifacts"
               uses: "actions/upload-artifact@v6"
@@ -75,7 +75,7 @@ jobs:
                       collection-xetex
                       collection-langjapanese
             - name: "Compile XeLaTeX"
-              run: "xelatex -interaction=nonstopmode -halt-on-error test_xelatex.tex"
+              run: "xelatex -interaction=nonstopmode -halt-on-error .github/test_xelatex.tex"
             - name: "Upload Artifacts"
               uses: "actions/upload-artifact@v6"
               with:
