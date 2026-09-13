@@ -133,12 +133,15 @@ LaTeX Font Warning: Size substitutions with differences up to 0.40002pt have occ
 .
 ├ report-cover.sty    # 表紙スタイルファイル (本体, これをダウンロードしてください)
 ├ cover.tex           # スタイルファイルを使わず直書きした TeX ファイル (参考用)
-├ main.tex            # スタイルファイルを適用した TeX ファイル (使用例)
-├ sample.pdf          # コンパイル済みサンプル
-├ sample.png          # サンプルのスクリーンショット (README 用)
-├ .github/workflows/
-│   └ cicd.yml        # CIを行うワークフローファイル
-├ test_*.tex          # CIに用いるテストコード
+├ assets/
+│   ├ sample.pdf      # コンパイル済みサンプル
+│   └ sample.png      # サンプルのスクリーンショット (README 用)
+├ .github/
+│   ├ workflows/
+│   │   ├ ci.yml      # CIを行うワークフローファイル
+│   │   └ cd.yml      # CDを行うワークフローファイル
+│   ├ release.yml     # リリースノートのひな形
+│   └ test_*.tex      # CIに用いるテストコード
 ├ LICENSE
 └ README.md
 ```
