@@ -5,7 +5,7 @@
 <div align="center">
 
 [![Release](https://img.shields.io/github/v/release/Samemaru07/report-cover_tex)](https://github.com/Samemaru07/report-cover_tex/releases/latest)
-[![CI](https://github.com/Samemaru07/report-cover_tex/actions/workflows/cicd.yml/badge.svg)](https://github.com/Samemaru07/report-cover_tex/actions/workflows/cicd.yml)
+[![CI](https://github.com/Samemaru07/report-cover_tex/actions/workflows/ci.yml/badge.svg)](https://github.com/Samemaru07/report-cover_tex/actions/workflows/ci.yml)
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](./LICENSE)\
 ![LuaLaTeX](https://img.shields.io/badge/LuaLaTeX-supported-blue?logo=latex)
 ![upLaTeX](https://img.shields.io/badge/upLaTeX-supported-blue?logo=latex)
