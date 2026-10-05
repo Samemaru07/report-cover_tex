@@ -121,9 +121,9 @@ LaTeX Font Warning: Size substitutions with differences up to 0.40002pt have occ
 
 ---
 
-> [最小構成の例](#最小構成の例)セクションでコンパイルしたサンプル PDF: [sample.pdf](./sample.pdf)
+> [最小構成の例](#最小構成の例)セクションでコンパイルしたサンプル PDF: [sample.pdf](./assets/sample.pdf)
 
-![表紙サンプル](./sample.png)
+![表紙サンプル](./assets/sample.png)
 
 ---
 
